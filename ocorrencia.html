@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página de Ocorrencia</title>
+  <link rel="stylesheet" href="CSS/ocorrencia.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/solid.css"/>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/fontawesome.css"/>
+  <script src="JS/ocorrencia.js" defer></script>
+</head>
+<body>
+  <header>
+    <nav>
+      <!-- <img src="IMG/suporte.png" alt="Logo suporte segurança"> -->
+      <li>
+        <a href="index.html">
+          <span class="fa fa-home"></span>
+          <span>Inicio</span>
+        </a>
+      </li>
+    </nav><hr>
+    
+    <form class="container__turno__funcionario">
+      <h1>Relatório turno de Serviço</h1>
+      <div class="container__diurno__noturno">
+        <label for="diurno">Diurno</label> 
+        <input class="checkbox" type="radio" name="turno" id="diurno" value="diurno" required>
+      
+        <label for="noturno">Noturno</label>
+        <input class="checkbox" type="radio" name="turno" id="noturno" value="noturno" required>
+      </div>
+    </form>
+  </header>
+
+  <main>
+    <form class="dados__funcionario">
+      <label for="namePosto">Posto de Serviço</label>
+      <input type="text" id="namePosto"  name="namePosto" required autocomplete="off">
+
+      <label for="date">Entrada Data e Hora</label>
+      <input type="datetime-local" id="date__entrada" name="date" required>
+
+      <label for="turnoServico">Saida Data e Hora</label>
+      <input type="datetime-local" id="date__saida" name="turnoServico" required>
+
+      <label for="nameFuncionario">Nome</label>
+      <input type="text" id="nameFuncionario" name="nameFuncionario" required autocomplete="off">
+
+      <label for="nomeEmpresaVig">Empresa</label>
+      <input type="text" id="nomeEmpresaVig" name="nomeEmpresa" required>
+
+      <label for="nomeFuncao">Função</label>
+      <input type="text" id="nomeFuncao" name="nomeFuncao" required>
+
+      <div class="btn__add__remove__campo">
+        <button type="button" id="addFuncionario">+</button>
+        <button type="button" id="removeFuncionario">-</button>
+      </div><br>
+    </form>
+
+    <p>Ocorrência: (registros e alterações)</p>
+    <p>Entrada de funcionarios e prestadores de serviços.</p>
+
+    <form class="dados__funcionarios__prestadores__servicos">
+      
+      <div class="funcionarios__prestadores__servicos">
+        <label for="nome1">Nome</label>
+        <input type="text" name="nome" id="nome1" autocomplete="off">
+        
+        <label for="documento1">RG ou CPF</label>
+        <input type="text" name="documento" id="documento1" minlength="11" maxlength="14" pattern="\d{3\.?}\d{3\.?}\d{3\-?}\d{2}" autocomplete="off">
+
+        <label for="nomeEmpresa1">Empresa</label>
+        <input type="text" name="nomeEmpresa" id="nomeEmpresa1" autocomplete="off">
+
+        <label for="veiculo1">Veículo</label>
+        <input type="text" name="veiculo" id="veiculo1" autocomplete="off">
+
+        <label for="cor1">Cor</label>
+        <input type="text" name="cor" id="cor1" autocomplete="off">
+      </div>
+    </form>
+
+      <div class="textarea__ocorrencia">
+        <label for="areatexto">Registros e alterações</label>
+        <textarea name="areatexto" id="areatexto"  placeholder="Digite registros e alterações"></textarea>
+      </div>
+
+    <form class="detalhes__ocorrencia">
+      <label for="tipoOcorrencia">Tipo de Ocorrência</label>
+      <select id="tipoOcorrencia" name="tipoOcorrencia" required>
+          <option value="">Selecione...</option>
+          <option value="relatorio">Relatorio</option>
+          <option value="acidente">Acidente</option>
+          <option value="incidente">Incidente de Segurança</option>
+          <option value="tecnico">Problema Técnico</option>
+          <option value="reclamacao">Reclamação</option>
+      </select>
+      
+      <label for="dataHora">Data e Hora</label>
+      <input type="datetime-local" id="dataHora" name="dataHora">
+      
+      <label for="localOcorrencia">Local da Ocorrência</label>
+      <input type="text" id="localOcorrencia" name="localOcorrencia" placeholder="Digite o local da ocorrência">
+      
+      <label for="descricaoDetalhada">Descrição Detalhada</label>
+      <textarea id="descricaoDetalhada" name="descricaoDetalhada" placeholder="Descreva detalhadamente a ocorrência"></textarea>
+    
+      <div class="container__encerrar">
+        <button type="button" id="encerrar">Encerrar</button>
+      </div>
+
+    </form>
+  </main>
+
+  <footer>
+    <p>Direitos reservados SHZ</p>
+  </footer>
+</body>
+</html>

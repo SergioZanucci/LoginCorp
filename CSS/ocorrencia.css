@@ -1,0 +1,142 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    /* background-image: linear-gradient(to right, #a350a3, #db7ab8, #44b3d4, #3943d6); */
+    background-color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-top: 20px;
+    padding: 0px 15px;
+}
+
+header {
+    width: 635px;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    width: 95%;
+    justify-content: space-between;
+}
+
+li {
+    font-weight: 600;
+    font-size: 22px;
+    list-style: none;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+.container__turno__funcionario {
+    display: flex;
+    align-items: baseline;
+    gap: 15px;
+}
+
+.container__diurno__noturno {
+    display: flex;
+    width: 210px;
+    gap: 10px;
+}
+
+.checkbox {
+    width: 21px;
+}
+
+main {
+    width: 620px;
+}
+
+.dados__funcionario {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    gap: 3px;
+}
+
+#addFuncionario {
+    width: 25px;
+    height: 25px;
+}
+
+#removeFuncionario {
+    width: 25px;
+    height: 25px; 
+}
+
+.dados__funcionarios__prestadores__servicos {
+    margin-top: 15px;
+}
+
+p {
+    font-size: 22px;
+}
+
+.funcionarios__prestadores__servicos {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    gap: 3px;
+}
+
+.textarea__ocorrencia {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    margin-top: 15px;
+    gap: 5px;
+}
+
+textarea {
+    height: 100px;
+    width: 620px;
+    padding: 5px;
+}
+
+.detalhes__ocorrencia {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.container__encerrar {
+    margin-top: 10px;
+}
+
+#encerrar {
+    cursor: pointer;
+    height: 35px;
+    width: 70px;
+    
+}
+
+footer {
+    margin-top: 10px;
+    text-align: center;
+}
+
+label {
+    font-size: 22px;
+} 
+
+input {
+    font-size: 18px;
+    height: 30px;
+    width: 350px;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    gap: 3px;
+}

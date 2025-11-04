@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="./CSS/style.css">
+       <!-- Links para trazer os ícones via CDN -->
+   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/solid.css"/>
+   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/fontawesome.css"/>
+    <script src="JS/script.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Login</h1>
+        <ul>
+            <li>
+                <a href="index.html">
+                    <span class="fa fa-home"></span>
+                    <span>Inicio</span>
+                </a>
+            </li>
+            <li>
+                <a href="cadastros.html">
+                    <span class="fa fa-folder"></span>
+                    <span>Cadastros</span>
+
+                </a>
+            </li>
+            <li>
+                <a href="registros.html">
+                    <span class="fa fa-book"></span>
+                    <span>Registros</span>
+                </a>
+            </li>
+            <li>contato</li>
+        </ul>
+        <!-- <a target="_blank" href="https://www.suporteseguranca.com.br/"><img src="IMG/suporte.png" alt="logo suporte segurança"></a> -->
+    </header>
+    <main>
+        <form action="#">
+            <!-- <label for="name"></label>
+            <input type="text" id="name" name="name" placeholder="Digite seu nome completo!" autocomplete="off"> -->
+            <label for="reFuncionario"></label>
+            <input type="text" id="reFuncionario" placeholder="Digite seu RE!" autocomplete="off" maxlength="6">
+            <button type="submit">Entrar</button>
+
+             <!-- Aqui vai aparecer a mensagem -->
+             <p id="mensagem" class="mensagem"></p>
+        </form>
+    </main>
+    <footer>
+        <p class="mensagem-rodape">Direitos reservados SHZ</p>
+    </footer>
+</body>
+</html>

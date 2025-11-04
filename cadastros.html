@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastros</title>
+    <link rel="stylesheet" href="./CSS/cadastro.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/solid.css"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/fontawesome.css"/>
+    <script src="JS/cadastro.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Login</h1>
+        <ul>
+            <ul>
+                <li>
+                    <a href="index.html">
+                        <span class="fa fa-home"></span>
+                        <span>Inicio</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="cadastros.html">
+                        <span class="fa fa-folder"></span>
+                        <span>Cadastros</span>
+    
+                    </a>
+                </li>
+                <li>
+                    <a href="registros.html">
+                        <span class="fa fa-book"></span>
+                        <span>Registros</span>
+                    </a>
+                </li>
+                <li>contato</li>
+            </ul>
+        </ul>
+        <!-- <a target="_blank" href="https://www.suporteseguranca.com.br/"><img src="IMG/suporte.png" alt="logo suporte segurança"></a> -->
+    </header>
+    <main>
+        <form>
+            <label for="name"></label>
+            <input name="name" class="" type="text" placeholder="Digite seu nome completo!" autocomplete="off">
+            <p class="mensagem-erro">Digite um nome valido</p>
+            <label for="reFuncionario"></label>
+            <input type="password" id="reFuncionario" placeholder="Digite seu RE!" autocomplete="off" maxlength="6">
+            <p class="mensagem-erro">O campo RE deve conter exatamente 6 números</p>
+            <label for="funcao"></label>
+            <input type="text" id="funcao" placeholder="Digite a funcao!" autocomplete="off">
+            <p class="mensagem-erro">Digite a função</p>
+            <label for="postoServico"></label>
+            <input type="text" id="postoServico" placeholder="Digite o posto de servico!">
+            <p class="mensagem-erro">Digite o posto de serviço</p>
+            <label for="empresa"></label>
+            <input type="text" id="empresa" placeholder="Digite nome da empresa!" autocomplete="off">
+            <p class="mensagem-erro">Digite o nome da empresa</p>
+            <button type="submit">Cadastrar</button>
+        </form>
+        <div class="mensagem">
+            <h2>Cadastro realizado com sucesso!</h2>
+        </div>
+    </main>
+
+</body>
+</html>
