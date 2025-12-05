@@ -12,9 +12,9 @@ body {
     padding: 0px 15px;
 }
 
-header {
+/* header {
     width: 635px;
-}
+} */
 
 nav {
     display: flex;
@@ -42,7 +42,8 @@ a {
 
 .container__diurno__noturno {
     display: flex;
-    width: 210px;
+    flex-wrap: wrap;
+    align-items: center;
     gap: 10px;
 }
 
