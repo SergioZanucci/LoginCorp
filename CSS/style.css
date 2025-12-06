@@ -42,6 +42,23 @@ ul {
     }
 }
 
+#menu-burguer {
+    font-size: 20px;
+    display: none;
+}
+
+@media (max-width: 500px) {
+    #menu-burguer {
+        display: block;
+    }
+}
+
+@media (max-width: 500px) {
+    li {
+        display: none;
+    }
+}
+
 a {
     color: black;
     text-decoration: none;
