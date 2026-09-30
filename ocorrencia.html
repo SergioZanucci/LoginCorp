@@ -1,121 +1,293 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-  <meta charset="UTF8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Página de Ocorrencia</title>
+  <title>Livro de Ocorrências — LoginCorp</title>
   <link rel="stylesheet" href="CSS/ocorrencia.css">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/solid.css"/>
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/fontawesome.css"/>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/solid.css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/fontawesome.css" />
   <script src="JS/ocorrencia.js" defer></script>
 </head>
+
 <body>
-  <header>
-    <nav>
-      <!-- <img src="IMG/suporte.png" alt="Logo suporte segurança"> -->
-      <li>
-        <a href="index.html">
-          <span class="fa fa-home"></span>
-          <span>Inicio</span>
-        </a>
-      </li>
-    </nav><hr>
-    
-    <form class="container__turno__funcionario">
-      <div class="container__diurno__noturno">
-        <h1>Relatório turno de Serviço</h1>
-        <label for="diurno">Diurno</label> 
-        <input class="checkbox" type="radio" name="turno" id="diurno" value="diurno" required>
-      
-        <label for="noturno">Noturno</label>
-        <input class="checkbox" type="radio" name="turno" id="noturno" value="noturno" required>
+  <header class="cabecalho__principal">
+    <div class="container__header">
+      <div class="marca__sistema">
+        <span class="logo__icone fa fa-shield-alt"></span>
+        <span class="logo__texto">LoginCorp</span>
       </div>
-    </form>
+      <nav class="nav__principal">
+        <ul class="menu__links">
+          <li>
+            <a href="index.html">
+              <span class="fa fa-home"></span>
+              <span>Início</span>
+            </a>
+          </li>
+          <li>
+            <a href="cadastros.html" id="linkMenuFuncionarios">
+              <span class="fa fa-users"></span>
+              <span>Funcionários</span>
+            </a>
+          </li>
+          <li>
+            <a href="ocorrencia.html" class="link__ativo">
+              <span class="fa fa-clipboard-list"></span>
+              <span>Ocorrências</span>
+            </a>
+          </li>
+          <li>
+            <a href="registros.html">
+              <span class="fa fa-book"></span>
+              <span>Registros</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" id="linkMenuSair" class="link__sair">
+              <span class="fa fa-sign-out-alt"></span>
+              <span>Sair</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
   </header>
 
-  <main>
-    <form class="dados__funcionario">
-      <label for="namePosto">Posto de Serviço</label>
-      <input type="text" id="namePosto"  name="namePosto" required autocomplete="off">
-
-      <label for="date">Entrada Data e Hora</label>
-      <input type="datetime-local" id="date__entrada" name="date" required>
-
-      <label for="turnoServico">Saida Data e Hora</label>
-      <input type="datetime-local" id="date__saida" name="turnoServico" required>
-
-      <label for="nameFuncionario">Nome</label>
-      <input type="text" id="nameFuncionario" name="nameFuncionario" required autocomplete="off">
-
-      <label for="nomeEmpresaVig">Empresa</label>
-      <input type="text" id="nomeEmpresaVig" name="nomeEmpresa" required>
-
-      <label for="nomeFuncao">Função</label>
-      <input type="text" id="nomeFuncao" name="nomeFuncao" required>
-
-      <div class="btn__add__remove__campo">
-        <button type="button" id="addFuncionario">+</button>
-        <button type="button" id="removeFuncionario">-</button>
-      </div><br>
-    </form>
-
-    <p>Ocorrência: (registros e alterações)</p>
-    <p>Entrada de funcionarios e prestadores de serviços.</p>
-
-    <form class="dados__funcionarios__prestadores__servicos">
-      
-      <div class="funcionarios__prestadores__servicos">
-        <label for="nome1">Nome</label>
-        <input type="text" name="nome" id="nome1" autocomplete="off">
-        
-        <label for="documento1">RG ou CPF</label>
-        <input type="text" name="documento" id="documento1" minlength="11" maxlength="14" pattern="\d{3\.?}\d{3\.?}\d{3\-?}\d{2}" autocomplete="off">
-
-        <label for="nomeEmpresa1">Empresa</label>
-        <input type="text" name="nomeEmpresa" id="nomeEmpresa1" autocomplete="off">
-
-        <label for="veiculo1">Veículo</label>
-        <input type="text" name="veiculo" id="veiculo1" autocomplete="off">
-
-        <label for="cor1">Cor</label>
-        <input type="text" name="cor" id="cor1" autocomplete="off">
+  <main class="container__principal">
+    <!-- Bloco 1: Turno de Serviço -->
+    <section class="card__secao">
+      <div class="cabecalho__secao">
+        <h2><span class="fa fa-clock"></span> Relatório Turno de Serviço</h2>
       </div>
-    </form>
 
+      <form class="container__turno__funcionario">
+        <div class="container__diurno__noturno">
+          <span class="label__grupo">Turno:</span>
+          <div class="opcoes__turno">
+            <label for="diurno" class="opcao__turno">
+              <input class="checkbox" type="radio" name="turno" id="diurno" value="diurno" required>
+              <span class="rotulo__turno"><span class="fa fa-sun"></span> Diurno</span>
+            </label>
+
+            <label for="noturno" class="opcao__turno">
+              <input class="checkbox" type="radio" name="turno" id="noturno" value="noturno" required>
+              <span class="rotulo__turno"><span class="fa fa-moon"></span> Noturno</span>
+            </label>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <!-- Bloco 2: Equipe de Plantão / Posto de Serviço -->
+    <section class="card__secao">
+      <div class="cabecalho__secao">
+        <h2><span class="fa fa-user-shield"></span> Equipe de Plantão / Posto de Serviço</h2>
+      </div>
+
+      <form class="dados__funcionario">
+        <div class="campo campo--bloco">
+          <div class="grid__campos">
+            <div class="item__campo">
+              <label for="namePosto">Posto de Serviço</label>
+              <input type="text" id="namePosto" name="namePosto" required autocomplete="off" readonly>
+            </div>
+
+            <div class="item__campo">
+              <label for="date__entrada">Entrada Data e Hora</label>
+              <input type="datetime-local" id="date__entrada" name="date" required>
+            </div>
+
+            <div class="item__campo">
+              <label for="date__saida">Saída Data e Hora</label>
+              <input type="datetime-local" id="date__saida" name="turnoServico" required>
+            </div>
+
+            <div class="item__campo">
+              <label for="nameFuncionario">Nome</label>
+              <input type="text" id="nameFuncionario" name="nameFuncionario" required autocomplete="off" readonly>
+            </div>
+
+            <div class="item__campo">
+              <label for="nomeEmpresaVig">Empresa</label>
+              <input type="text" id="nomeEmpresaVig" name="nomeEmpresa" required readonly>
+            </div>
+
+            <div class="item__campo">
+              <label for="nomeFuncao">Função</label>
+              <input type="text" id="nomeFuncao" name="nomeFuncao" required readonly>
+            </div>
+          </div>
+
+          <div class="btn__add__remove__campo">
+            <button type="button" id="addFuncionario" title="Adicionar colaborador">+</button>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <!-- Bloco 3: Entrada de funcionários e prestadores de serviços (Equipes) -->
+    <section class="secao__prestadores card__secao">
+      <div class="cabecalho__secao">
+        <h2><span class="fa fa-truck-loading"></span> Entrada de funcionários e prestadores de serviços</h2>
+      </div>
+
+      <div id="containerEquipes" class="container__equipes">
+        <!-- Bloco inicial: Equipe 1 -->
+        <div class="bloco__equipe">
+          <div class="cabecalho__equipe">
+            <h3>Equipe 1</h3>
+            <button type="button" class="btn__remover-equipe" title="Remover esta equipe">Remover equipe</button>
+          </div>
+
+          <div class="dados__equipe">
+            <div class="campo">
+              <label for="empresa_eq1">Empresa</label>
+              <input type="text" id="empresa_eq1" name="empresa" placeholder="Nome da empresa" autocomplete="off">
+            </div>
+
+            <div class="campo">
+              <label for="veiculo_eq1">Veículo</label>
+              <input type="text" id="veiculo_eq1" name="veiculo" placeholder="Modelo do veículo" autocomplete="off">
+            </div>
+
+            <div class="campo">
+              <label for="cor_eq1">Cor</label>
+              <input type="text" id="cor_eq1" name="cor" placeholder="Cor do veículo" autocomplete="off">
+            </div>
+
+            <div class="campo">
+              <label for="placa_eq1">Placa</label>
+              <input type="text" id="placa_eq1" name="placa" placeholder="Placa do veículo" autocomplete="off">
+            </div>
+          </div>
+
+          <div class="container__membros">
+            <h4>Integrantes da Equipe</h4>
+            <div class="lista__membros">
+              <!-- Funcionário 1 inicial -->
+              <div class="item__funcionario">
+                <div class="cabecalho__funcionario">
+                  <h5>Funcionário 1</h5>
+                  <button type="button" class="btn__remover-funcionario" title="Remover funcionário">-</button>
+                </div>
+
+                <div class="grid__funcionario">
+                  <div class="campo">
+                    <label>Nome</label>
+                    <input type="text" name="nomeFuncionarioPrestador" placeholder="Nome completo" autocomplete="off">
+                  </div>
+
+                  <div class="campo">
+                    <label>Tipo de documento</label>
+                    <select name="tipoDocumento">
+                      <option value="RG">RG</option>
+                      <option value="CPF">CPF</option>
+                      <option value="ID">ID</option>
+                    </select>
+                  </div>
+
+                  <div class="campo">
+                    <label>Documento</label>
+                    <input type="text" name="numeroDocumento" placeholder="Número do documento" autocomplete="off">
+                  </div>
+
+                  <div class="campo">
+                    <label>Entrada</label>
+                    <input type="datetime-local" name="entradaPrestador">
+                  </div>
+
+                  <div class="campo">
+                    <label>Saída</label>
+                    <input type="datetime-local" name="saidaPrestador">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button type="button" class="btn__adicionar-funcionario">+ Adicionar funcionário</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="acoes__equipes">
+        <button type="button" id="btnAdicionarEquipe" class="btn__adicionar-equipe">+ Adicionar empresa/equipe</button>
+      </div>
+    </section>
+
+    <!-- Bloco 4: Registros e Alterações -->
+    <section class="card__secao">
+      <div class="cabecalho__secao">
+        <h2><span class="fa fa-clipboard-list"></span> Registros e alterações</h2>
+      </div>
       <div class="textarea__ocorrencia">
-        <label for="areatexto">Registros e alterações</label>
-        <textarea name="areatexto" id="areatexto"  placeholder="Digite registros e alterações"></textarea>
+        <label for="areatexto">Digite registros e alterações do turno:</label>
+        <textarea name="areatexto" id="areatexto" placeholder="Digite registros, rondas e alterações gerais do posto..."></textarea>
+      </div>
+    </section>
+
+    <!-- Bloco 5: Detalhes da Ocorrência -->
+    <section class="card__secao">
+      <div class="cabecalho__secao">
+        <h2><span class="fa fa-exclamation-triangle"></span> Detalhes da Ocorrência</h2>
       </div>
 
-    <form class="detalhes__ocorrencia">
-      <label for="tipoOcorrencia">Tipo de Ocorrência</label>
-      <select id="tipoOcorrencia" name="tipoOcorrencia" required>
-          <option value="">Selecione...</option>
-          <option value="relatorio">Relatorio</option>
-          <option value="acidente">Acidente</option>
-          <option value="incidente">Incidente de Segurança</option>
-          <option value="tecnico">Problema Técnico</option>
-          <option value="reclamacao">Reclamação</option>
-      </select>
-      
-      <label for="dataHora">Data e Hora</label>
-      <input type="datetime-local" id="dataHora" name="dataHora">
-      
-      <label for="localOcorrencia">Local da Ocorrência</label>
-      <input type="text" id="localOcorrencia" name="localOcorrencia" placeholder="Digite o local da ocorrência">
-      
-      <label for="descricaoDetalhada">Descrição Detalhada</label>
-      <textarea id="descricaoDetalhada" name="descricaoDetalhada" placeholder="Descreva detalhadamente a ocorrência"></textarea>
-    
-      <div class="container__encerrar">
-        <button type="button" id="encerrar">Encerrar</button>
-      </div>
+      <form class="detalhes__ocorrencia">
+        <div class="grid__campos">
+          <div class="item__campo">
+            <label for="tipoOcorrencia">Tipo de Ocorrência</label>
+            <select id="tipoOcorrencia" name="tipoOcorrencia" required>
+              <option value="">Selecione...</option>
+              <option value="relatorio">Relatório</option>
+              <option value="acidente">Acidente</option>
+              <option value="incidente">Incidente de Segurança</option>
+              <option value="tecnico">Problema Técnico</option>
+              <option value="reclamacao">Reclamação</option>
+            </select>
+          </div>
 
-    </form>
+          <div class="item__campo">
+            <label for="dataHora">Data e Hora</label>
+            <input type="datetime-local" id="dataHora" name="dataHora">
+          </div>
+
+          <div class="item__campo item__campo--full">
+            <label for="localOcorrencia">Local da Ocorrência</label>
+            <input type="text" id="localOcorrencia" name="localOcorrencia" placeholder="Digite o local da ocorrência" autocomplete="off">
+          </div>
+        </div>
+
+        <div class="item__campo item__campo--full">
+          <label for="descricaoDetalhada">Descrição Detalhada</label>
+          <textarea id="descricaoDetalhada" name="descricaoDetalhada"
+            placeholder="Descreva detalhadamente a ocorrência..."></textarea>
+        </div>
+
+        <div class="container__encerrar">
+          <button type="button" id="encerrar"><span class="fa fa-check-circle"></span> Encerrar</button>
+        </div>
+      </form>
+    </section>
   </main>
 
-  <footer>
-    <p>Direitos reservados SHZ</p>
+  <footer class="rodape__principal">
+    <p>Direitos reservados SHZ &copy; LoginCorp</p>
   </footer>
+
+  <!-- Modal Reutilizável de Alerta / Acesso Negado -->
+  <div id="modalAviso" class="modal__overlay" aria-hidden="true">
+    <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modalTitulo">
+      <div class="modal__icone">
+        <span class="fa fa-shield-alt"></span>
+      </div>
+      <h3 id="modalTitulo" class="modal__titulo">Acesso negado</h3>
+      <p id="modalMensagem" class="modal__mensagem">Você não tem permissão para acessar esta área.</p>
+      <div class="modal__acoes">
+        <button type="button" id="btnFecharModal" class="btn__modal-fechar">Fechar</button>
+      </div>
+    </div>
+  </div>
 </body>
+
 </html>

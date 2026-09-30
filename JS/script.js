@@ -1,129 +1,76 @@
-// const listaFuncionarios = [ {
-//     nome: "Sergio Henrique Zanucci",
-//     matricula: 235382,
-//     funcao: "Vigilante",
-//     posto: "Ceraq Araraquara",
-//     empresa: "Suporte segurança",
-// },
-// {
-//     nome: "José Carlos Milanez",
-//     matricula: 235372,
-//     funcao: "Vigilante",
-//     posto: "Ceraq Araraquara",
-//     empresa: "Suporte segurança",  
-// },
-// {
-//     nome: "Daniel Hipólito",
-//     matricula: 236472,
-//     funcao: "Vigilante",
-//     posto: "Ceraq Araraquara",
-//     empresa: "Suporte segurança",
-// },
-// {
-//     nome: "Luiz Carlos Carato",
-//     matricula: 236492,
-//     funcao: "Vigilante",
-//     posto: "Ceraq Araraquara",
-//     empresa: "Suporte segurança",
-// },
-// {
-//     nome: "Romildo Silveiro Silva",
-//     matricula: 236482,
-//     funcao: "Vigilante",
-//     posto: "Ceraq Araraquara",
-//     empresa: "Suporte segurança",
-// },
-// {
-//     nome: "Moises Francisco de Souza",
-//     matricula: 236552,
-//     funcao: "Vigilante",
-//     posto: "Ceraq Araraquara",
-//     empresa: "Suporte segurança",
-// },
-// {
-//     nome: "Elis Alberto de Almeida",
-//     matricula: 238552,
-//     funcao: "Vigilante",
-//     posto: "Ceraq Araraquara",
-//     empresa: "Suporte segurança",
-// }
-// ];
+const mensagem = document.querySelector("#mensagem");
+const campoRe = document.querySelector("#reFuncionario");
+const modalNaoEncontrado = document.querySelector("#modalNaoEncontrado");
+const btnFecharModalLogin = document.querySelector("#btnFecharModalLogin");
 
-// function confirmaFuncionario() {
-//     const reFuncionario = parseInt(document.querySelector("#reFuncionario").value.trim());
-  
-//     const funcionarioEncontrado = listaFuncionarios.filter(
-//       (funcionario) => funcionario.matricula === reFuncionario
-//     );
-  
-//     if (funcionarioEncontrado.length > 0) {
-//         window.location.href = "ocorrencia.html";
-//         alert("Funcionário encontrado na lista!");
-//     } else {
-//         alert("Funcionário não encontrado na lista. Por favor, digite nome e uma matrícula válida.");
-//         return;
-//     }
-// }
+// Funções para controle do modal personalizado
+function abrirModalLogin() {
+    if (!modalNaoEncontrado) return;
+    if (mensagem) mensagem.textContent = "";
+    modalNaoEncontrado.classList.add("ativo");
+    modalNaoEncontrado.setAttribute("aria-hidden", "false");
+}
 
-// Poderia me explicar qual a diferença do meu codigo JS para seu o que tem melhoria e outras coisas
-// Diferenças e Melhorias:
-// Evitar o Comportamento Padrão do Formulário:
+function fecharModalLogin() {
+    if (!modalNaoEncontrado) return;
+    modalNaoEncontrado.classList.remove("ativo");
+    modalNaoEncontrado.setAttribute("aria-hidden", "true");
+    if (campoRe) {
+        campoRe.focus();
+        campoRe.select();
+    }
+}
 
-// Seu código não prevenia o comportamento padrão do formulário, o que poderia causar um reload da página.
+if (btnFecharModalLogin) {
+    btnFecharModalLogin.addEventListener("click", fecharModalLogin);
+}
 
-// Meu código usa e.preventDefault() para evitar isso e garantir que a lógica de validação seja executada antes de qualquer ação.
+if (modalNaoEncontrado) {
+    modalNaoEncontrado.addEventListener("click", (evento) => {
+        if (evento.target === modalNaoEncontrado) {
+            fecharModalLogin();
+        }
+    });
+}
 
-// Uso de find em vez de filter:
+function confirmaFuncionario(evento) {
+    evento.preventDefault();
 
-// Seu código usa filter, que retorna um array de todos os elementos que correspondem ao critério, o que é mais do que precisamos.
+    const reFuncionario = campoRe
+        ? campoRe.value.trim()
+        : document.querySelector("#reFuncionario").value.trim();
 
-// Meu código usa find, que retorna o primeiro elemento que corresponde ao critério ou undefined se nenhum elemento corresponder, o que é mais eficiente para nossa necessidade.
+    // Busca os funcionários cadastrados
+    const funcionarios =
+        JSON.parse(localStorage.getItem("funcionarios")) || [];
 
-// Listener do Formulário:
-
-// Seu código chama confirmaFuncionario diretamente no onclick do botão, o que pode causar problemas se o formulário for submetido de outras formas.
-
-// Meu código adiciona um listener ao formulário para o evento submit, garantindo que a função seja chamada corretamente sempre que o formulário for submetido.
-
-const listaFuncionarios = [
-    { nome: "Sergio Henrique Zanucci", matricula: 235382, funcao: "Vigilante", posto: "Ceraq Araraquara", empresa: "Suporte segurança" },
-    { nome: "José Carlos Milanez", matricula: 235372, funcao: "Vigilante", posto: "Ceraq Araraquara", empresa: "Suporte segurança" },
-    { nome: "Daniel Hipólito", matricula: 236472, funcao: "Vigilante", posto: "Ceraq Araraquara", empresa: "Suporte segurança" },
-    { nome: "Luiz Carlos Carato", matricula: 236492, funcao: "Vigilante", posto: "Ceraq Araraquara", empresa: "Suporte segurança" },
-    { nome: "Romildo Silveiro Silva", matricula: 236482, funcao: "Vigilante", posto: "Ceraq Araraquara", empresa: "Suporte segurança" },
-    { nome: "Moises Francisco de Souza", matricula: 236552, funcao: "Vigilante", posto: "Ceraq Araraquara", empresa: "Suporte segurança" },
-    { nome: "Elis Alberto de Almeida", matricula: 238552, funcao: "Vigilante", posto: "Ceraq Araraquara", empresa: "Suporte segurança" }
-];
-
-function confirmaFuncionario(e) {
-    e.preventDefault(); // Previne a ação padrão do formulário
-
-    const reFuncionario = parseInt(document.querySelector("#reFuncionario").value.trim());
-    const funcionarioEncontrado = listaFuncionarios.find(funcionario => funcionario.matricula === reFuncionario);
-    const mensagem = document.querySelector("#mensagem");
+    // Procura o funcionário pelo RE
+    const funcionarioEncontrado = funcionarios.find(
+        funcionario => funcionario.matricula === reFuncionario
+    );
 
     if (funcionarioEncontrado) {
-        mensagem.textContent = "Funcionário encontrado na lista!";
-        mensagem.style.color = "green"
-        mensagem.style.fontWeight = "bold"
 
-         // Mostra a mensagem por 1.5s antes do redirecionamento
+        // mensagem.textContent = "Funcionário encontrado na lista!";
+        sessionStorage.setItem("funcionarioLogado", JSON.stringify(funcionarioEncontrado));
+        if (mensagem) {
+            mensagem.style.color = "green";
+            mensagem.style.fontWeight = "bold";
+        }
+
+        console.log("Funcionário encontrado:", funcionarioEncontrado);
+
         setTimeout(() => {
             window.location.href = "ocorrencia.html";
         }, 1500);
 
     } else {
-        mensagem.textContent = "Funcionário não encontrado. Por favor, verifique a matrícula.";
-        mensagem.style.color = "red";
-        mensagem.style.fontWeight = "bold";
 
-          // Faz a mensagem sumir depois de alguns segundos
-        setTimeout(() => {
-            mensagem.textContent = "";
-        }, 4000);
+        // Abre o modal personalizado informando que o funcionário não foi encontrado
+        abrirModalLogin();
     }
-
 }
 
-
-document.querySelector("form").addEventListener("submit", confirmaFuncionario);
+document
+    .querySelector("form")
+    .addEventListener("submit", confirmaFuncionario);

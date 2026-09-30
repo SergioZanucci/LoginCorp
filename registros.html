@@ -1,44 +1,109 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registros e ocorrencia</title>
-    <link rel="stylesheet" href="CSS/registros.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/solid.css"/>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/fontawesome.css"/>
+    <title>Consulta de Registros — LoginCorp</title>
+    <link rel="stylesheet" href="./CSS/registros.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/solid.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/fontawesome.css" />
 </head>
+
 <body>
-    <header>
-        <h1>Login</h1>
-        <ul>
-            <ul>
-                <li>
-                    <a href="index.html">
-                        <span class="fa fa-home"></span>
-                        <span>Inicio</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="cadastros.html">
-                        <span class="fa fa-folder"></span>
-                        <span>Cadastros</span>
-    
-                    </a>
-                </li>
-                <li>
-                    <a href="registros.html">
-                        <span class="fa fa-book"></span>
-                        <span>Registros</span>
-                    </a>
-                </li>
-                <li>contato</li>
-            </ul>
-        </ul>
-        <!-- <a target="_blank" href="https://www.suporteseguranca.com.br/"><img src="IMG/suporte.png" alt="logo suporte segurança"></a> -->
+    <header class="cabecalho__principal">
+        <div class="container__header">
+            <div class="marca__sistema">
+                <span class="logo__icone fa fa-shield-alt"></span>
+                <span class="logo__texto">LoginCorp</span>
+            </div>
+            <nav class="nav__principal">
+                <ul class="menu__links">
+                    <li>
+                        <a href="index.html">
+                            <span class="fa fa-home"></span>
+                            <span>Início</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="cadastros.html">
+                            <span class="fa fa-users"></span>
+                            <span>Funcionários</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="ocorrencia.html">
+                            <span class="fa fa-clipboard-list"></span>
+                            <span>Ocorrências</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="registros.html" class="link__ativo">
+                            <span class="fa fa-book"></span>
+                            <span>Registros</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="linkMenuSair" class="link__sair">
+                            <span class="fa fa-sign-out-alt"></span>
+                            <span>Sair</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </header>
-    <footer>
-        <p>Direitos reservados SHZ</p>
+
+    <main class="container__principal">
+        <section class="card__secao card__registros">
+            <div class="cabecalho__secao">
+                <h2><span class="fa fa-book-open"></span> Livro de Registros e Ocorrências</h2>
+            </div>
+
+            <div class="estado__vazio">
+                <div class="icone__vazio">
+                    <span class="fa fa-clipboard-check"></span>
+                </div>
+                <h3>Histórico de Ocorrências</h3>
+                <p>Nesta seção serão listadas e filtradas todas as ocorrências registradas pelos plantonistas nas próximas etapas do sistema.</p>
+                <div class="botoes__acao-registros">
+                    <a href="ocorrencia.html" class="btn__acao-padrao">
+                        <span class="fa fa-plus-circle"></span>
+                        <span>Abrir Livro de Ocorrências</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="rodape__principal">
+        <p>Direitos reservados SHZ &copy; LoginCorp</p>
     </footer>
+
+    <script>
+        // ========================================================
+        // Proteção de Acesso à Página (Requer Funcionário Autenticado)
+        // ========================================================
+        const funcionarioLogado = JSON.parse(
+            sessionStorage.getItem("funcionarioLogado")
+        );
+
+        if (!funcionarioLogado) {
+            window.location.href = "index.html";
+        }
+
+        // ========================================================
+        // Logout / Sair do Sistema
+        // ========================================================
+        const linkMenuSair = document.querySelector("#linkMenuSair");
+        if (linkMenuSair) {
+            linkMenuSair.addEventListener("click", (evento) => {
+                evento.preventDefault();
+                sessionStorage.removeItem("funcionarioLogado");
+                window.location.href = "index.html";
+            });
+        }
+    </script>
 </body>
+
 </html>

@@ -1,66 +1,170 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastros</title>
+    <title>Gerenciamento de Funcionários — LoginCorp</title>
     <link rel="stylesheet" href="./CSS/cadastro.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/solid.css"/>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/fontawesome.css"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/solid.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/fontawesome.css">
     <script src="JS/cadastro.js" defer></script>
 </head>
+
 <body>
-    <header>
-        <h1>Login</h1>
-        <nav>
-            <ul>
-                <li>
-                    <a href="index.html">
-                        <span class="fa fa-home"></span>
-                        <span>Inicio</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="cadastros.html">
-                        <span class="fa fa-folder"></span>
-                        <span>Cadastros</span>
-    
-                    </a>
-                </li>
-                <li>
-                    <a href="registros.html">
-                        <span class="fa fa-book"></span>
-                        <span>Registros</span>
-                    </a>
-                </li>
-                <li>contato</li>
-            </ul>
-        </nav>
-        <!-- <a target="_blank" href="https://www.suporteseguranca.com.br/"><img src="IMG/suporte.png" alt="logo suporte segurança"></a> -->
-    </header>
-    <main>
-        <form>
-            <label for="name"></label>
-            <input name="name" class="" type="text" placeholder="Digite seu nome completo!" autocomplete="off">
-            <p class="mensagem-erro">Digite um nome valido</p>
-            <label for="reFuncionario"></label>
-            <input type="password" id="reFuncionario" placeholder="Digite seu RE!" autocomplete="off" maxlength="6">
-            <p class="mensagem-erro">O campo RE deve conter exatamente 6 números</p>
-            <label for="funcao"></label>
-            <input type="text" id="funcao" placeholder="Digite a funcao!" autocomplete="off">
-            <p class="mensagem-erro">Digite a função</p>
-            <label for="postoServico"></label>
-            <input type="text" id="postoServico" placeholder="Digite o posto de servico!">
-            <p class="mensagem-erro">Digite o posto de serviço</p>
-            <label for="empresa"></label>
-            <input type="text" id="empresa" placeholder="Digite nome da empresa!" autocomplete="off">
-            <p class="mensagem-erro">Digite o nome da empresa</p>
-            <button type="submit">Cadastrar</button>
-        </form>
-        <div class="mensagem">
-            <h2>Cadastro realizado com sucesso!</h2>
+    <header class="cabecalho__principal">
+        <div class="container__header">
+            <div class="marca__sistema">
+                <span class="logo__icone fa fa-shield-alt"></span>
+                <span class="logo__texto">LoginCorp</span>
+            </div>
+            <nav class="nav__principal">
+                <ul class="menu__links">
+                    <li>
+                        <a href="index.html">
+                            <span class="fa fa-home"></span>
+                            <span>Início</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="cadastros.html" class="link__ativo">
+                            <span class="fa fa-users"></span>
+                            <span>Funcionários</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="ocorrencia.html">
+                            <span class="fa fa-clipboard-list"></span>
+                            <span>Ocorrências</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="registros.html">
+                            <span class="fa fa-book"></span>
+                            <span>Registros</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="linkMenuSair" class="link__sair">
+                            <span class="fa fa-sign-out-alt"></span>
+                            <span>Sair</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
+    </header>
+
+    <main class="container__principal">
+        <!-- Card 1: Formulário de Cadastro -->
+        <section class="card__secao cadastro-funcionario">
+            <div class="cabecalho__secao">
+                <h2><span class="fa fa-user-plus"></span> Cadastrar Funcionário</h2>
+            </div>
+
+            <form id="formCadastro">
+                <div class="grid__campos">
+                    <div class="item__campo">
+                        <label for="nomeFuncionario">Nome completo</label>
+                        <input type="text" id="nomeFuncionario" placeholder="Digite o nome completo" autocomplete="off">
+                        <p class="mensagem-erro">Digite um nome válido.</p>
+                    </div>
+
+                    <div class="item__campo">
+                        <label for="reFuncionario">Matrícula (RE)</label>
+                        <input type="text" id="reFuncionario" placeholder="Digite o RE (6 números)" maxlength="6" inputmode="numeric" autocomplete="off">
+                        <p class="mensagem-erro">O RE deve conter exatamente 6 números.</p>
+                    </div>
+
+                    <div class="item__campo">
+                        <label for="funcao">Função</label>
+                        <input type="text" id="funcao" placeholder="Ex: Vigilante, Porteiro" autocomplete="off">
+                        <p class="mensagem-erro">Digite a função.</p>
+                    </div>
+
+                    <div class="item__campo">
+                        <label for="postoServico">Posto de serviço</label>
+                        <input type="text" id="postoServico" placeholder="Ex: Portaria Principal" autocomplete="off">
+                        <p class="mensagem-erro">Digite o posto de serviço.</p>
+                    </div>
+
+                    <div class="item__campo">
+                        <label for="empresa">Empresa</label>
+                        <input type="text" id="empresa" placeholder="Nome da empresa contratante" autocomplete="off">
+                        <p class="mensagem-erro">Digite o nome da empresa.</p>
+                    </div>
+
+                    <div class="item__campo">
+                        <label for="turno">Turno de trabalho</label>
+                        <select id="turno" name="turno" required>
+                            <option value="">Selecione o turno</option>
+                            <option value="diurno">Diurno</option>
+                            <option value="noturno">Noturno</option>
+                        </select>
+                        <p class="mensagem-erro">Selecione o turno.</p>
+                    </div>
+
+                    <div class="item__campo">
+                        <label for="perfil">Perfil de acesso</label>
+                        <select id="perfil" name="perfil" required>
+                            <option value="funcionario" selected>Funcionário</option>
+                            <option value="administrador">Administrador</option>
+                        </select>
+                        <p class="mensagem-erro">Selecione o perfil.</p>
+                    </div>
+                </div>
+
+                <div class="acoes__formulario">
+                    <button type="submit" class="btn__cadastrar">
+                        <span class="fa fa-check"></span>
+                        <span>Cadastrar Colaborador</span>
+                    </button>
+                </div>
+            </form>
+
+            <div id="mensagemSucesso" class="mensagem">
+                <h2><span class="fa fa-check-circle"></span> Funcionário cadastrado com sucesso!</h2>
+            </div>
+        </section>
+
+        <!-- Card 2: Lista de Funcionários Cadastrados -->
+        <section class="card__secao lista-funcionarios">
+            <div class="cabecalho__secao">
+                <h2><span class="fa fa-users"></span> Funcionários Cadastrados</h2>
+            </div>
+
+            <div id="listaFuncionarios" class="grade__funcionarios">
+                <!-- Os funcionários serão inseridos aqui pelo JavaScript -->
+            </div>
+        </section>
     </main>
 
+    <footer class="rodape__principal">
+        <p>Direitos reservados SHZ &copy; LoginCorp</p>
+    </footer>
+
+    <!-- Modal de Confirmação de Exclusão -->
+    <div id="modalConfirmarExclusao" class="modal__overlay" aria-hidden="true">
+        <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modalTituloExclusao">
+            <div class="modal__icone">
+                <span class="fa fa-exclamation-triangle"></span>
+            </div>
+            <h3 id="modalTituloExclusao" class="modal__titulo">Confirmar exclusão</h3>
+            <p class="modal__mensagem">
+                Deseja realmente excluir o cadastro deste colaborador? Esta ação não poderá ser desfeita.
+            </p>
+            <div class="modal__detalhes">
+                <p><strong>Nome:</strong> <span id="modalNomeFuncionario"></span></p>
+                <p><strong>RE:</strong> <span id="modalReFuncionario"></span></p>
+            </div>
+            <div class="modal__acoes">
+                <button type="button" id="btnCancelarExclusao" class="btn__modal-cancelar">Cancelar</button>
+                <button type="button" id="btnConfirmarExclusao" class="btn__modal-excluir">
+                    <span class="fa fa-trash-alt"></span> Excluir
+                </button>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>

@@ -1,66 +1,88 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>LoginCorp — Acesso de Funcionários</title>
     <link rel="stylesheet" href="./CSS/style.css">
-       <!-- Links para trazer os ícones via CDN -->
-   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/solid.css"/>
-   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/fontawesome.css"/>
+    <!-- Links para trazer os ícones via CDN -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/solid.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/fontawesome.css" />
     <script src="JS/script.js" defer></script>
 </head>
+
 <body>
-    <header>
-        <h1>Login</h1>
-        <nav>
-            <!-- <span class="material-symbols-outlined" onclick="openMenu()">menu</span> -->
-            <span id="menu-burguer" class="fa fa-bars"></span>
-            <ul>
-                <li>
-                    <a href="index.html">
-                        <span class="fa fa-home"></span>
-                        <span>Inicio</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="cadastros.html">
-                        <span class="fa fa-folder"></span>
-                        <span>Cadastros</span>
-
-                    </a>
-                </li>
-                <li>
-                    <a href="registros.html">
-                        <span class="fa fa-book"></span>
-                        <span>Registros</span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a href="contato.html">
-                        <span class="fa fa-book"></span>
-                        <span>Contato</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-        <!-- <a target="_blank" href="https://www.suporteseguranca.com.br/"><img src="IMG/suporte.png" alt="logo suporte segurança"></a> -->
+    <header class="cabecalho__principal">
+        <div class="container__header">
+            <div class="marca__sistema">
+                <span class="logo__icone fa fa-shield-alt"></span>
+                <span class="logo__texto">LoginCorp</span>
+            </div>
+            <nav class="nav__principal">
+                <span id="menu-burguer" class="fa fa-bars"></span>
+                <ul class="menu__links">
+                    <li>
+                        <a href="index.html" class="link__ativo">
+                            <span class="fa fa-home"></span>
+                            <span>Início</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="contato.html">
+                            <span class="fa fa-envelope"></span>
+                            <span>Contato</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </header>
-    <main>
-        <form action="#">
-            <!-- <label for="name"></label>
-            <input type="text" id="name" name="name" placeholder="Digite seu nome completo!" autocomplete="off"> -->
-            <label for="reFuncionario"></label>
-            <input type="text" id="reFuncionario" placeholder="Digite seu RE!" autocomplete="off" maxlength="6">
-            <button type="submit">Entrar</button>
 
-             <!-- Aqui vai aparecer a mensagem -->
-             <p id="mensagem" class="mensagem"></p>
-        </form>
+    <main class="container__principal container__login">
+        <section class="card__secao card__login">
+            <div class="cabecalho__secao cabecalho__login">
+                <h2><span class="fa fa-user-lock"></span> Acesso ao Sistema</h2>
+                <p class="subtitulo__secao">Informe sua matrícula (RE) para acessar o livro de ocorrências.</p>
+            </div>
+
+            <form action="#">
+                <div class="campo campo__login">
+                    <label for="reFuncionario">Matrícula (RE)</label>
+                    <div class="input__com-icone">
+                        <span class="fa fa-id-badge icone__input"></span>
+                        <input type="text" id="reFuncionario" placeholder="Digite seu RE (ex: 123456)" autocomplete="off" maxlength="6" inputmode="numeric">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn__login">
+                    <span class="fa fa-sign-in-alt"></span>
+                    <span>Entrar</span>
+                </button>
+
+                <!-- Mensagem dinâmica de validação/sucesso -->
+                <p id="mensagem" class="mensagem"></p>
+            </form>
+        </section>
     </main>
-    <footer>
-        <p class="mensagem-rodape">Direitos reservados SHZ</p>
+
+    <footer class="rodape__principal">
+        <p class="mensagem-rodape">Direitos reservados SHZ &copy; LoginCorp</p>
     </footer>
+
+    <!-- Modal de Funcionário Não Encontrado -->
+    <div id="modalNaoEncontrado" class="modal__overlay" aria-hidden="true">
+        <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modalTituloLogin">
+            <div class="modal__icone">
+                <span class="fa fa-user-times"></span>
+            </div>
+            <h3 id="modalTituloLogin" class="modal__titulo">Funcionário não encontrado</h3>
+            <p id="modalMensagemLogin" class="modal__mensagem">Verifique a matrícula informada e tente novamente.</p>
+            <div class="modal__acoes">
+                <button type="button" id="btnFecharModalLogin" class="btn__modal-fechar">Fechar</button>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>

@@ -1,111 +1,392 @@
 * {
     padding: 0;
     margin: 0;
+    box-sizing: border-box;
 }
 
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    /* background-image: linear-gradient(to right, #2196f3, #03A9F4, #00BCD4, #00BCD4); */
-}
-
-header {
+    background-color: #f1f5f9;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #1e293b;
+    line-height: 1.5;
+    min-height: 100vh;
     display: flex;
-    align-items: center;
-    color: black;
-    flex-wrap: wrap;
     flex-direction: column;
-    gap: 15px;
-    padding: 20px;
 }
 
-@media (max-width: 500px) {
-    header {
-        align-items: flex-start;
-    }
+/* ========================================================
+   Cabeçalho e Navegação
+   ======================================================== */
+.cabecalho__principal {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
-ul {
+.container__header {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.marca__sistema {
     display: flex;
     align-items: center;
-    cursor: pointer;
+    gap: 8px;
     font-size: 20px;
-    font-weight: 600;
-    gap: 30px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.logo__icone {
+    color: #2563eb;
+    font-size: 22px;
+}
+
+.nav__principal {
+    display: flex;
+    align-items: center;
+}
+
+.menu__links {
+    display: flex;
+    align-items: center;
+    gap: 15px;
     list-style: none;
 }
 
-@media (max-width: 500px) {
-    ul {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-    }
+.menu__links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 6px;
+    color: #475569;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.menu__links a:hover {
+    background-color: #f1f5f9;
+    color: #0f172a;
+}
+
+.menu__links a.link__ativo {
+    background-color: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
 }
 
 #menu-burguer {
-    font-size: 20px;
     display: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #334155;
 }
 
-@media (max-width: 500px) {
-    #menu-burguer {
-        display: block;
-    }
+/* ========================================================
+   Container Principal e Card de Login
+   ======================================================== */
+.container__principal {
+    max-width: 900px;
+    width: 100%;
+    margin: 40px auto;
+    padding: 0 15px;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-@media (max-width: 500px) {
-    li {
-        display: none;
-    }
+.card__secao {
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
 }
 
-a {
-    color: black;
-    text-decoration: none;
+.card__login {
+    width: 100%;
+    max-width: 440px;
 }
 
-main {
-    height: 574px;
-    padding: 20px;
+.cabecalho__login {
+    text-align: center;
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 16px;
+    margin-bottom: 24px;
 }
-   
+
+.cabecalho__login h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.cabecalho__login h2 span.fa {
+    color: #2563eb;
+}
+
+.subtitulo__secao {
+    font-size: 13px;
+    color: #64748b;
+    margin-top: 6px;
+}
+
+/* ========================================================
+   Formulário de Login
+   ======================================================== */
 form {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    top: 80px;
-    position: relative;
+    gap: 18px;
 }
 
-input {
-    width: 300px;
-    height: 35px;
-    border-radius: 10px;
-    padding: 0px 10px;
+.campo__login {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 }
 
-button {
-    border-radius: 10px;
-    cursor: pointer;
-    font-family: sans-serif;
+.campo__login label {
+    font-size: 14px;
     font-weight: 600;
-    font-size: 12px;
-    height: 40px;
-    width: 100px;
+    color: #334155;
+}
+
+.input__com-icone {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.icone__input {
+    position: absolute;
+    left: 12px;
+    color: #94a3b8;
+    font-size: 16px;
+    pointer-events: none;
+}
+
+.campo__login input {
+    width: 100%;
+    height: 42px;
+    font-size: 15px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 0 12px 0 38px;
+    background-color: #ffffff;
+    color: #0f172a;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.campo__login input:focus {
+    border-color: #3b82f6;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.btn__login {
+    width: 100%;
+    height: 44px;
+    background-color: #2563eb;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(37, 99, 235, 0.25);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background-color 0.2s, transform 0.1s;
+    margin-top: 5px;
+}
+
+.btn__login:hover {
+    background-color: #1d4ed8;
+}
+
+.btn__login:active {
+    transform: translateY(1px);
 }
 
 #mensagem {
-  margin-top: 10px;
-  font-size: 16px;
-  transition: opacity 0.3s ease;
-}
-
-.mensagem-rodape{
-    color: black;
-    font-size: 20px;
-    font-weight: 600;
-    margin-top: 20px;
+    font-size: 14px;
+    min-height: 20px;
     text-align: center;
+    line-height: 1.4;
+    transition: opacity 0.3s ease;
 }
 
+/* ========================================================
+   Rodapé
+   ======================================================== */
+.rodape__principal {
+    text-align: center;
+    padding: 20px 0;
+    color: #64748b;
+    font-size: 13px;
+    border-top: 1px solid #e2e8f0;
+    background-color: #ffffff;
+}
+
+/* ========================================================
+   Responsividade Mobile
+   ======================================================== */
+@media (max-width: 640px) {
+    .container__header {
+        padding: 10px 15px;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .nav__principal {
+        width: 100%;
+        justify-content: center;
+    }
+
+    #menu-burguer {
+        display: none;
+    }
+
+    .menu__links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px;
+    }
+
+    .menu__links a {
+        padding: 6px 10px;
+        font-size: 13px;
+    }
+
+    .container__principal {
+        margin: 20px auto;
+        padding: 0 10px;
+    }
+
+    .card__secao {
+        padding: 20px 15px;
+    }
+}
+
+/* ========================================================
+   Modal Reutilizável (Padrão Visual LoginCorp)
+   ======================================================== */
+.modal__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(2px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 15px;
+    animation: fadeIn 0.2s ease-out;
+}
+
+.modal__overlay.ativo {
+    display: flex;
+}
+
+.modal__container {
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    padding: 28px 24px;
+    max-width: 420px;
+    width: 100%;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    animation: scaleUp 0.2s ease-out;
+}
+
+.modal__icone {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: #fef2f2;
+    color: #dc2626;
+    border: 2px solid #fee2e2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 16px;
+}
+
+.modal__titulo {
+    font-size: 19px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 8px;
+}
+
+.modal__mensagem {
+    font-size: 14px;
+    color: #64748b;
+    line-height: 1.5;
+    margin-bottom: 22px;
+}
+
+.modal__acoes {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.btn__modal-fechar {
+    background-color: #2563eb;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 28px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(37, 99, 235, 0.25);
+    transition: background-color 0.2s, transform 0.1s;
+    min-width: 120px;
+}
+
+.btn__modal-fechar:hover {
+    background-color: #1d4ed8;
+}
+
+.btn__modal-fechar:active {
+    transform: translateY(1px);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}

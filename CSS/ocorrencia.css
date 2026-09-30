@@ -5,139 +5,778 @@
 }
 
 body {
-    /* background-image: linear-gradient(to right, #a350a3, #db7ab8, #44b3d4, #3943d6); */
-    background-color: white;
-    font-family: Arial, Helvetica, sans-serif;
-    margin-top: 20px;
-    padding: 0px 15px;
+    background-color: #f1f5f9;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #1e293b;
+    line-height: 1.5;
+    min-height: 100vh;
 }
 
-/* header {
-    width: 635px;
-} */
+/* ========================================================
+   Cabeçalho e Navegação
+   ======================================================== */
+.cabecalho__principal {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
 
-nav {
+.container__header {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.marca__sistema {
     display: flex;
     align-items: center;
-    width: 95%;
-    justify-content: space-between;
+    gap: 8px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #0f172a;
 }
 
-li {
-    font-weight: 600;
+.logo__icone {
+    color: #2563eb;
     font-size: 22px;
+}
+
+.btn__nav-inicio {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background-color: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    color: #334155;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn__nav-inicio:hover {
+    background-color: #e2e8f0;
+    color: #0f172a;
+}
+
+.menu__links {
+    display: flex;
+    align-items: center;
+    gap: 12px;
     list-style: none;
 }
 
-a {
-    color: black;
+.menu__links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 6px;
+    color: #475569;
     text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s ease;
 }
 
+.menu__links a:hover {
+    background-color: #f1f5f9;
+    color: #0f172a;
+}
+
+.menu__links a.link__ativo {
+    background-color: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+}
+
+/* ========================================================
+   Container Principal e Cards de Seção
+   ======================================================== */
+.container__principal {
+    max-width: 900px;
+    width: 100%;
+    margin: 25px auto;
+    padding: 0 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.card__secao {
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.cabecalho__secao {
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 12px;
+    margin-bottom: 18px;
+}
+
+.cabecalho__secao h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cabecalho__secao h2 span.fa {
+    color: #2563eb;
+    font-size: 17px;
+}
+
+/* ========================================================
+   Bloco 1: Seleção Diurno / Noturno
+   ======================================================== */
 .container__turno__funcionario {
     display: flex;
-    align-items: baseline;
-    gap: 15px;
+    flex-direction: column;
 }
 
 .container__diurno__noturno {
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
-    gap: 10px;
+    flex-wrap: wrap;
+    gap: 16px;
 }
 
-.checkbox {
-    width: 21px;
+.label__grupo {
+    font-size: 14px;
+    font-weight: 600;
+    color: #475569;
 }
 
-main {
-    width: 620px;
+.opcoes__turno {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
 }
 
-.dados__funcionario {
+.opcao__turno {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+}
+
+.opcao__turno input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.rotulo__turno {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    background-color: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #475569;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.opcao__turno input[type="radio"]:hover + .rotulo__turno {
+    border-color: #94a3b8;
+    background-color: #f1f5f9;
+}
+
+.opcao__turno input[type="radio"]:checked + .rotulo__turno {
+    background-color: #eff6ff;
+    border-color: #3b82f6;
+    color: #1d4ed8;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.opcao__turno input[type="radio"]:checked + .rotulo__turno span.fa-sun {
+    color: #f59e0b;
+}
+
+.opcao__turno input[type="radio"]:checked + .rotulo__turno span.fa-moon {
+    color: #6366f1;
+}
+
+/* ========================================================
+   Grids e Campos de Formulário
+   ======================================================== */
+.grid__campos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+    width: 100%;
+}
+
+.item__campo {
     display: flex;
     flex-direction: column;
-    align-items: baseline;
-    gap: 3px;
-}
-
-#addFuncionario {
-    width: 25px;
-    height: 25px;
-}
-
-#removeFuncionario {
-    width: 25px;
-    height: 25px; 
-}
-
-.dados__funcionarios__prestadores__servicos {
-    margin-top: 15px;
-}
-
-p {
-    font-size: 22px;
-}
-
-.funcionarios__prestadores__servicos {
-    display: flex;
-    flex-direction: column;
-    align-items: baseline;
-    gap: 3px;
-}
-
-.textarea__ocorrencia {
-    display: flex;
-    flex-direction: column;
-    align-items: baseline;
-    margin-top: 15px;
     gap: 5px;
 }
 
-textarea {
-    height: 100px;
-    width: 620px;
-    padding: 5px;
+.item__campo--full {
+    grid-column: 1 / -1;
 }
 
-.detalhes__ocorrencia {
+.item__campo label,
+.campo label,
+.textarea__ocorrencia label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #334155;
+}
+
+.item__campo input,
+.item__campo select,
+.campo input,
+.campo select {
+    width: 100%;
+    height: 38px;
+    font-size: 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 0 10px;
+    background-color: #ffffff;
+    color: #0f172a;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.item__campo input:focus,
+.item__campo select:focus,
+.campo input:focus,
+.campo select:focus,
+.textarea__ocorrencia textarea:focus,
+.detalhes__ocorrencia textarea:focus {
+    border-color: #3b82f6;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+/* Campos somente leitura (dados preenchidos automaticamente) */
+input[readonly] {
+    background-color: #f1f5f9;
+    color: #475569;
+    border-color: #e2e8f0;
+    cursor: default;
+}
+
+/* ========================================================
+   Bloco 2: Dados do Plantonista / Equipe de Plantão
+   ======================================================== */
+.dados__funcionario {
     display: flex;
     flex-direction: column;
-    align-items: baseline;
+    gap: 15px;
+    width: 100%;
+}
+
+.campo--bloco {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Estilo para campos adicionados dinamicamente via addCampo() */
+.dados__funcionario .campo {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
     gap: 10px;
+    margin-bottom: 12px;
+}
+
+.btn__add__remove__campo {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-top: 5px;
+}
+
+#addFuncionario,
+#removeFuncionario {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+}
+
+#addFuncionario {
+    background-color: #eff6ff;
+    color: #1d4ed8;
+    border-color: #bfdbfe;
+}
+
+#addFuncionario:hover {
+    background-color: #dbeafe;
+}
+
+#removeFuncionario {
+    background-color: #fef2f2;
+    color: #b91c1c;
+    border-color: #fecaca;
+}
+
+#removeFuncionario:hover {
+    background-color: #fee2e2;
+}
+
+/* ========================================================
+   Bloco 3: Equipes e Prestadores de Serviços
+   ======================================================== */
+.container__equipes {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.bloco__equipe {
+    background-color: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.cabecalho__equipe {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.cabecalho__equipe h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.btn__remover-equipe {
+    background-color: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #f87171;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn__remover-equipe:hover {
+    background-color: #fecaca;
+}
+
+.dados__equipe {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.dados__equipe .campo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.container__membros {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 14px;
+}
+
+.container__membros h4 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #334155;
+    margin-bottom: 12px;
+}
+
+.lista__membros {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.item__funcionario {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 12px;
+}
+
+.cabecalho__funcionario {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.cabecalho__funcionario h5 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.btn__remover-funcionario {
+    width: 26px;
+    height: 26px;
+    background-color: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    transition: background-color 0.2s;
+}
+
+.btn__remover-funcionario:hover {
+    background-color: #dc2626;
+}
+
+.grid__funcionario {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+}
+
+.grid__funcionario .campo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.btn__adicionar-funcionario {
+    background-color: #f0f9ff;
+    color: #0369a1;
+    border: 1px dashed #0284c7;
+    border-radius: 6px;
+    padding: 9px 14px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    transition: background-color 0.2s;
+}
+
+.btn__adicionar-funcionario:hover {
+    background-color: #e0f2fe;
+}
+
+.acoes__equipes {
     margin-top: 15px;
 }
 
+.btn__adicionar-equipe {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(37, 99, 235, 0.25);
+    transition: background-color 0.2s;
+}
+
+.btn__adicionar-equipe:hover {
+    background-color: #1d4ed8;
+}
+
+/* ========================================================
+   Bloco 4: Registros e Alterações
+   ======================================================== */
+.textarea__ocorrencia {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.textarea__ocorrencia textarea,
+.detalhes__ocorrencia textarea {
+    width: 100%;
+    min-height: 110px;
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: inherit;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    color: #0f172a;
+    resize: vertical;
+    background-color: #ffffff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* ========================================================
+   Bloco 5: Detalhes da Ocorrência e Botão Encerrar
+   ======================================================== */
+.detalhes__ocorrencia {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
 .container__encerrar {
+    display: flex;
+    justify-content: flex-end;
     margin-top: 10px;
 }
 
 #encerrar {
+    background-color: #16a34a;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 11px 26px;
+    font-size: 15px;
+    font-weight: 600;
     cursor: pointer;
-    height: 35px;
-    width: 70px;
-    
+    box-shadow: 0 2px 4px rgba(22, 163, 74, 0.25);
+    transition: background-color 0.2s, transform 0.1s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
 }
 
-footer {
-    margin-top: 10px;
+#encerrar:hover {
+    background-color: #15803d;
+}
+
+#encerrar:active {
+    transform: translateY(1px);
+}
+
+/* ========================================================
+   Rodapé
+   ======================================================== */
+.rodape__principal {
     text-align: center;
+    padding: 25px 0 35px 0;
+    color: #64748b;
+    font-size: 13px;
+    border-top: 1px solid #e2e8f0;
+    margin-top: 25px;
 }
 
-label {
-    font-size: 22px;
-} 
+/* ========================================================
+   Responsividade Mobile (Smartphones e Tablets)
+   ======================================================== */
+@media (max-width: 640px) {
+    .container__header {
+        padding: 10px 15px;
+        flex-direction: column;
+        gap: 10px;
+    }
 
-input {
-    font-size: 18px;
-    height: 30px;
-    width: 350px;
+    .nav__principal {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .menu__links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px;
+    }
+
+    .menu__links a {
+        padding: 6px 10px;
+        font-size: 13px;
+    }
+
+    .container__principal {
+        padding: 0 10px;
+        margin: 15px auto;
+        gap: 16px;
+    }
+
+    .card__secao {
+        padding: 15px;
+    }
+
+    .grid__campos,
+    .dados__equipe,
+    .grid__funcionario {
+        grid-template-columns: 1fr;
+    }
+
+    .opcoes__turno {
+        width: 100%;
+    }
+
+    .opcao__turno {
+        flex: 1;
+    }
+
+    .rotulo__turno {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .btn__adicionar-equipe,
+    #encerrar {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .container__encerrar {
+        justify-content: stretch;
+    }
 }
 
-.campo {
+/* ========================================================
+   Modal Reutilizável (Aviso / Acesso Negado)
+   ======================================================== */
+.modal__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(2px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 15px;
+    animation: fadeIn 0.2s ease-out;
+}
+
+.modal__overlay.ativo {
+    display: flex;
+}
+
+.modal__container {
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    padding: 28px 24px;
+    max-width: 420px;
+    width: 100%;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    align-items: baseline;
-    gap: 3px;
+    align-items: center;
+    text-align: center;
+    animation: scaleUp 0.2s ease-out;
+}
+
+.modal__icone {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: #fef2f2;
+    color: #dc2626;
+    border: 2px solid #fee2e2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 16px;
+}
+
+.modal__titulo {
+    font-size: 19px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 8px;
+}
+
+.modal__mensagem {
+    font-size: 14px;
+    color: #64748b;
+    line-height: 1.5;
+    margin-bottom: 22px;
+}
+
+.modal__acoes {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.btn__modal-fechar {
+    background-color: #2563eb;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 28px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(37, 99, 235, 0.25);
+    transition: background-color 0.2s, transform 0.1s;
+    min-width: 120px;
+}
+
+.btn__modal-fechar:hover {
+    background-color: #1d4ed8;
+}
+
+.btn__modal-fechar:active {
+    transform: translateY(1px);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
 }

@@ -1,124 +1,201 @@
-const form = document.querySelector("form");
-const campoNome = document.querySelector("input[name='name']");
+// ====================================================================
+// Proteção de Acesso à Página (Apenas Administrador Autenticado)
+// ====================================================================
+const funcionarioLogado = JSON.parse(sessionStorage.getItem("funcionarioLogado"));
+
+if (!funcionarioLogado) {
+    alert("Acesso restrito. Faça login para continuar.");
+    window.location.href = "index.html";
+} else if (funcionarioLogado.perfil !== "administrador") {
+    alert("Acesso negado. A página de funcionários é restrita a administradores.");
+    window.location.href = "ocorrencia.html";
+}
+
+const form = document.querySelector("#formCadastro");
+
+const campoNome = document.querySelector("#nomeFuncionario");
 const campoReFuncionario = document.querySelector("#reFuncionario");
 const campoFuncao = document.querySelector("#funcao");
 const campoPostoServico = document.querySelector("#postoServico");
 const campoEmpresa = document.querySelector("#empresa");
-const btnCadastrar = document.querySelector("button");
-const mensagemFinal = document.querySelector(".mensagem");
+const campoTurno = document.querySelector("#turno");
+const campoPerfil = document.querySelector("#perfil");
 
-let validaForm = true;
+const listaFuncionarios = document.querySelector("#listaFuncionarios");
 
-// Evento que escuta o formulario e preventDefault para paralizar o submit
+// Busca os funcionários já salvos
+let funcionarios = JSON.parse(localStorage.getItem("funcionarios")) || [];
+
 form.addEventListener("submit", (evento) => {
     evento.preventDefault();
-    validaForm = true; // Reseta a validação a cada envio
-    validaCampoNome();
-    validaReFuncionario();
-    validaFuncao();
-    validaCampoPostoServico();
-    validaCampoEmpresa();
 
-    if (validaForm) {
-        mensagemFinal.style.display = "block"; // Mostra mensagem de sucesso
-        console.log("Cadastro realizado com sucesso!");
-        form.remove();
-        mensagemFinal.style.display = "block";
+    const nome = campoNome.value.trim();
+    const matricula = campoReFuncionario.value.trim();
+    const funcao = campoFuncao.value.trim();
+    const posto = campoPostoServico.value.trim();
+    const empresa = campoEmpresa.value.trim();
+    const turno = campoTurno.value.trim();
+    const perfil = (campoPerfil ? campoPerfil.value.trim() : "") || "funcionario";
+
+    // Verifica se todos os campos foram preenchidos
+    if (!nome || !matricula || !funcao || !posto || !empresa || !turno || !perfil) {
+        alert("Preencha todos os campos.");
+        return;
+    }
+
+    // Verifica o RE
+    if (matricula.length !== 6 || !/^\d+$/.test(matricula)) {
+        alert("O RE deve conter exatamente 6 números.");
+        return;
+    }
+
+    // Verifica se o RE já está cadastrado
+    const funcionarioExistente = funcionarios.find(
+        funcionario => funcionario.matricula === matricula);
+
+    if (funcionarioExistente) {
+        alert("Já existe um funcionário cadastrado com este RE.");
+        return;
+    }
+
+    // Cria o funcionário com o perfil selecionado
+    const funcionario = {
+        nome: nome,
+        matricula: matricula,
+        funcao: funcao,
+        posto: posto,
+        empresa: empresa,
+        turno: turno,
+        perfil: perfil
+    };
+
+    // Adiciona à lista
+    funcionarios.push(funcionario);
+
+    // Salva no localStorage
+    localStorage.setItem("funcionarios", JSON.stringify(funcionarios));
+
+    console.log("Funcionário cadastrado:", funcionario);
+    console.log("Funcionários salvos:", funcionarios);
+
+    // Atualiza a tela
+    mostrarFuncionarios();
+
+    // Limpa o formulário e redefine o perfil padrão como 'funcionario'
+    form.reset();
+    if (campoPerfil) {
+        campoPerfil.value = "funcionario";
     }
 });
 
-const validaCampoNome = () => {
-    if (!campoNome.value) {
-        campoNome.classList.add("invalid");
-        campoNome.nextElementSibling.style.display = "block"; // Exibe mensagem de erro
-        validaForm = false;  
-    } else {
-        campoNome.classList.remove("invalid");
-        campoNome.nextElementSibling.style.display = "none"; // Oculta mensagem de erro
-    }
-   
-    console.log(campoNome.value);
-};
+function mostrarFuncionarios() {
 
-campoNome.addEventListener("input", () => {
-    campoNome.classList.remove("invalid");
-    campoNome.nextElementSibling.style.display = "none";
-})
+    listaFuncionarios.innerHTML = "";
 
-const validaReFuncionario = () => {
-    const reValue = campoReFuncionario.value.trim();
-    if (reValue.length !== 6 || !/^\d+$/.test(reValue)) {
-        campoReFuncionario.classList.add("invalid");
-        campoReFuncionario.nextElementSibling.style.display = "block"; 
-        validaForm = false;  
-    } else {
-        campoReFuncionario.classList.remove("invalid");
-        campoReFuncionario.nextElementSibling.style.display = "none"; 
-    }
-   
-    console.log(campoReFuncionario.value);
-};
+    funcionarios.forEach((funcionario) => {
 
-campoReFuncionario.addEventListener("input", () => {
-    campoReFuncionario.classList.remove("invalid");
-    campoReFuncionario.nextElementSibling.style.display = "none"; 
+        const div = document.createElement("div");
+        const perfilFormatado = funcionario.perfil === "administrador" ? "Administrador" : "Funcionário";
+
+        div.innerHTML = `
+            <p><strong>Nome:</strong> ${funcionario.nome}</p>
+            <p><strong>RE:</strong> ${funcionario.matricula}</p>
+            <p><strong>Função:</strong> ${funcionario.funcao}</p>
+            <p><strong>Posto:</strong> ${funcionario.posto}</p>
+            <p><strong>Empresa:</strong> ${funcionario.empresa}</p>
+            <p><strong>Turno:</strong> ${funcionario.turno}</p>
+            <p><strong>Perfil:</strong> ${perfilFormatado}</p>
+            <button type="button" class="btn__excluir" data-matricula="${funcionario.matricula}" title="Excluir funcionário">
+                <span class="fa fa-trash-alt"></span> Excluir
+            </button>
+            <hr>
+        `;
+
+        listaFuncionarios.appendChild(div);
+    });
+}
+
+// ====================================================================
+// Modal de Confirmação de Exclusão de Funcionário
+// ====================================================================
+const modalConfirmarExclusao = document.querySelector("#modalConfirmarExclusao");
+const modalNomeFuncionario = document.querySelector("#modalNomeFuncionario");
+const modalReFuncionario = document.querySelector("#modalReFuncionario");
+const btnCancelarExclusao = document.querySelector("#btnCancelarExclusao");
+const btnConfirmarExclusao = document.querySelector("#btnConfirmarExclusao");
+
+let matriculaParaExcluir = null;
+
+function abrirModalExclusao(funcionario) {
+    if (!modalConfirmarExclusao) return;
+    matriculaParaExcluir = funcionario.matricula;
+    if (modalNomeFuncionario) modalNomeFuncionario.textContent = funcionario.nome;
+    if (modalReFuncionario) modalReFuncionario.textContent = funcionario.matricula;
+    modalConfirmarExclusao.classList.add("ativo");
+    modalConfirmarExclusao.setAttribute("aria-hidden", "false");
+}
+
+function fecharModalExclusao() {
+    if (!modalConfirmarExclusao) return;
+    matriculaParaExcluir = null;
+    modalConfirmarExclusao.classList.remove("ativo");
+    modalConfirmarExclusao.setAttribute("aria-hidden", "true");
+}
+
+if (btnCancelarExclusao) {
+    btnCancelarExclusao.addEventListener("click", fecharModalExclusao);
+}
+
+if (modalConfirmarExclusao) {
+    modalConfirmarExclusao.addEventListener("click", (evento) => {
+        if (evento.target === modalConfirmarExclusao) {
+            fecharModalExclusao();
+        }
+    });
+}
+
+if (btnConfirmarExclusao) {
+    btnConfirmarExclusao.addEventListener("click", () => {
+        if (!matriculaParaExcluir) return;
+
+        // Remove somente o funcionário com a matrícula correspondente
+        funcionarios = funcionarios.filter(f => f.matricula !== matriculaParaExcluir);
+
+        // Atualiza a chave no localStorage
+        localStorage.setItem("funcionarios", JSON.stringify(funcionarios));
+
+        // Atualiza a tela imediatamente
+        mostrarFuncionarios();
+
+        // Fecha o modal
+        fecharModalExclusao();
+    });
+}
+
+// Evento de exclusão de funcionário por delegação de eventos
+listaFuncionarios.addEventListener("click", (evento) => {
+    const botaoExcluir = evento.target.closest(".btn__excluir");
+    if (!botaoExcluir) return;
+
+    const matricula = botaoExcluir.dataset.matricula;
+    const funcionario = funcionarios.find(f => f.matricula === matricula);
+    if (!funcionario) return;
+
+    abrirModalExclusao(funcionario);
 });
 
-const validaFuncao = () => {
-    if (!campoFuncao.value) {
-        campoFuncao.classList.add("invalid");
-        campoFuncao.nextElementSibling.style.display = "block";
-        validaForm = false;  
-    } else {
-        campoFuncao.classList.remove("invalid");
-        campoFuncao.nextElementSibling.style.display = "none"; 
-    }
-   
-    console.log(campoFuncao.value);
-};
 
-campoFuncao.addEventListener("input", () => {
-    campoFuncao.classList.remove("invalid");
-    campoFuncao.nextElementSibling.style.display = "none";  
-});
+// Mostra os funcionários salvos ao abrir a página
+mostrarFuncionarios();
 
-const validaCampoPostoServico = () => {
-    if (!campoPostoServico.value) {
-        campoPostoServico.classList.add("invalid");
-        campoPostoServico.nextElementSibling.style.display = "block";
-        validaForm = false;  
-    } else {
-        campoPostoServico.classList.remove("invalid");
-        campoPostoServico.nextElementSibling.style.display = "none"; 
-    }
-   
-    console.log(campoPostoServico.value);
-};
-
-campoPostoServico.addEventListener("input", () => {
-    campoPostoServico.classList.remove("invalid");
-    campoPostoServico.nextElementSibling.style.display = "none";
-});
-
-const validaCampoEmpresa = () => {
-    if (!campoEmpresa.value) {
-        campoEmpresa.classList.add("invalid");
-        campoEmpresa.nextElementSibling.style.display = "block"; 
-        validaForm = false;  
-    } else {
-        campoEmpresa.classList.remove("invalid");
-        campoEmpresa.nextElementSibling.style.display = "none"; 
-    }
-   
-    console.log(campoEmpresa.value);
-};
-
-campoEmpresa.addEventListener("input", () => {
-    campoEmpresa.classList.remove("invalid");
-    campoEmpresa.nextElementSibling.style.display = "none"; 
-});
-
-// btnCadastrar("click", (evento) => {
-//     evento.preventDefault();
-//     console.log(btnCadastrar.value);
-// });
+// ====================================================================
+// Logout / Sair do Sistema
+// ====================================================================
+const linkMenuSair = document.querySelector("#linkMenuSair");
+if (linkMenuSair) {
+    linkMenuSair.addEventListener("click", (evento) => {
+        evento.preventDefault();
+        sessionStorage.removeItem("funcionarioLogado");
+        window.location.href = "index.html";
+    });
+}
