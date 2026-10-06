@@ -60,6 +60,9 @@
                 <h2><span class="fa fa-book-open"></span> Livro de Registros e Ocorrências</h2>
             </div>
 
+            <!-- Container para renderização dinâmica dos relatórios -->
+            <div id="listaRelatorios"></div>
+
             <div class="estado__vazio">
                 <div class="icone__vazio">
                     <span class="fa fa-clipboard-check"></span>
@@ -80,30 +83,7 @@
         <p>Direitos reservados SHZ &copy; LoginCorp</p>
     </footer>
 
-    <script>
-        // ========================================================
-        // Proteção de Acesso à Página (Requer Funcionário Autenticado)
-        // ========================================================
-        const funcionarioLogado = JSON.parse(
-            sessionStorage.getItem("funcionarioLogado")
-        );
-
-        if (!funcionarioLogado) {
-            window.location.href = "index.html";
-        }
-
-        // ========================================================
-        // Logout / Sair do Sistema
-        // ========================================================
-        const linkMenuSair = document.querySelector("#linkMenuSair");
-        if (linkMenuSair) {
-            linkMenuSair.addEventListener("click", (evento) => {
-                evento.preventDefault();
-                sessionStorage.removeItem("funcionarioLogado");
-                window.location.href = "index.html";
-            });
-        }
-    </script>
+    <script src="./JS/registros.js"></script>
 </body>
 
 </html>

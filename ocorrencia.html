@@ -87,36 +87,55 @@
       </div>
 
       <form class="dados__funcionario">
-        <div class="campo campo--bloco">
+        <div class="campo campo--bloco campo--autor">
+          <div class="cabecalho__plantonista">
+            <h4><span class="fa fa-user-shield"></span> Vigilante 1 — Integrante do Plantão (Autor)</h4>
+            <span class="badge__autor">Autor</span>
+          </div>
+
           <div class="grid__campos">
             <div class="item__campo">
               <label for="namePosto">Posto de Serviço</label>
-              <input type="text" id="namePosto" name="namePosto" required autocomplete="off" readonly>
+              <input type="text" id="namePosto" name="namePosto" class="campo__posto-plantonista" required autocomplete="off" readonly>
             </div>
 
             <div class="item__campo">
               <label for="date__entrada">Entrada Data e Hora</label>
-              <input type="datetime-local" id="date__entrada" name="date" required>
+              <input type="datetime-local" id="date__entrada" name="date" class="campo__entrada-plantonista" required>
             </div>
 
             <div class="item__campo">
               <label for="date__saida">Saída Data e Hora</label>
-              <input type="datetime-local" id="date__saida" name="turnoServico" required>
+              <input type="datetime-local" id="date__saida" name="dataHoraSaida" class="campo__saida-plantonista" required>
+            </div>
+
+            <div class="item__campo">
+              <label for="turnoPlantonista">Turno</label>
+              <select id="turnoPlantonista" name="turnoPlantonista" class="campo__turno-plantonista" required>
+                <option value="">Selecione...</option>
+                <option value="diurno">Diurno</option>
+                <option value="noturno">Noturno</option>
+              </select>
             </div>
 
             <div class="item__campo">
               <label for="nameFuncionario">Nome</label>
-              <input type="text" id="nameFuncionario" name="nameFuncionario" required autocomplete="off" readonly>
+              <input type="text" id="nameFuncionario" name="nameFuncionario" class="campo__nome-plantonista" required autocomplete="off" readonly>
+            </div>
+
+            <div class="item__campo">
+              <label for="reFuncionario">Matrícula (RE)</label>
+              <input type="text" id="reFuncionario" name="reFuncionario" class="campo__re-plantonista" maxlength="6" required autocomplete="off" readonly>
             </div>
 
             <div class="item__campo">
               <label for="nomeEmpresaVig">Empresa</label>
-              <input type="text" id="nomeEmpresaVig" name="nomeEmpresa" required readonly>
+              <input type="text" id="nomeEmpresaVig" name="nomeEmpresa" class="campo__empresa-plantonista" required readonly>
             </div>
 
             <div class="item__campo">
               <label for="nomeFuncao">Função</label>
-              <input type="text" id="nomeFuncao" name="nomeFuncao" required readonly>
+              <input type="text" id="nomeFuncao" name="nomeFuncao" class="campo__funcao-plantonista" required readonly>
             </div>
           </div>
 
@@ -125,6 +144,11 @@
           </div>
         </div>
       </form>
+
+      <div class="textarea__ocorrencia" style="margin-top: 15px;">
+        <label for="registroAlteracaoPlantao">Registro / Alteração do Plantão</label>
+        <textarea id="registroAlteracaoPlantao" name="registroAlteracaoPlantao" placeholder="Digite registros, ocorrências internas ou alterações do plantão..."></textarea>
+      </div>
     </section>
 
     <!-- Bloco 3: Entrada de funcionários e prestadores de serviços (Equipes) -->
@@ -208,6 +232,11 @@
 
             <button type="button" class="btn__adicionar-funcionario">+ Adicionar funcionário</button>
           </div>
+
+          <div class="textarea__ocorrencia" style="margin-top: 15px;">
+            <label>Registro / Alteração da Equipe</label>
+            <textarea name="registroAlteracaoEquipe" placeholder="Digite registros, serviços executados ou alterações desta equipe..."></textarea>
+          </div>
         </div>
       </div>
 
@@ -216,13 +245,13 @@
       </div>
     </section>
 
-    <!-- Bloco 4: Registros e Alterações -->
+    <!-- Bloco 4: Registro Geral do Turno -->
     <section class="card__secao">
       <div class="cabecalho__secao">
-        <h2><span class="fa fa-clipboard-list"></span> Registros e alterações</h2>
+        <h2><span class="fa fa-clipboard-list"></span> Registro Geral do Turno</h2>
       </div>
       <div class="textarea__ocorrencia">
-        <label for="areatexto">Digite registros e alterações do turno:</label>
+        <label for="areatexto">Registro Geral do Turno</label>
         <textarea name="areatexto" id="areatexto" placeholder="Digite registros, rondas e alterações gerais do posto..."></textarea>
       </div>
     </section>
@@ -237,7 +266,7 @@
         <div class="grid__campos">
           <div class="item__campo">
             <label for="tipoOcorrencia">Tipo de Ocorrência</label>
-            <select id="tipoOcorrencia" name="tipoOcorrencia" required>
+            <select id="tipoOcorrencia" name="tipoOcorrencia">
               <option value="">Selecione...</option>
               <option value="relatorio">Relatório</option>
               <option value="acidente">Acidente</option>
@@ -265,7 +294,7 @@
         </div>
 
         <div class="container__encerrar">
-          <button type="button" id="encerrar"><span class="fa fa-check-circle"></span> Encerrar</button>
+          <button type="button" id="encerrar"><span class="fa fa-check-circle"></span> Enviar relatório</button>
         </div>
       </form>
     </section>
@@ -285,6 +314,33 @@
       <p id="modalMensagem" class="modal__mensagem">Você não tem permissão para acessar esta área.</p>
       <div class="modal__acoes">
         <button type="button" id="btnFecharModal" class="btn__modal-fechar">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Confirmação Segura de Envio do Relatório -->
+  <div id="modalConfirmarEnvio" class="modal__overlay" aria-hidden="true">
+    <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modalTituloConfirmar">
+      <div class="modal__icone modal__icone--confirmar">
+        <span class="fa fa-clipboard-check"></span>
+      </div>
+      <h3 id="modalTituloConfirmar" class="modal__titulo">Confirmar envio do relatório</h3>
+      <p class="modal__mensagem">Você está prestes a enviar este relatório. Após a confirmação, ele será registrado.</p>
+
+      <div class="dados__autor-confirmacao">
+        <p><strong>Vigilante:</strong> <span id="confirmacaoNomeAutor">--</span></p>
+        <p><strong>RE:</strong> <span id="confirmacaoReAutor">--</span></p>
+      </div>
+
+      <div class="campo__confirmacao-re">
+        <label for="inputConfirmarRe">Digite seu RE para confirmar:</label>
+        <input type="text" id="inputConfirmarRe" placeholder="Digite seu RE" maxlength="6" inputmode="numeric" autocomplete="off">
+        <p id="erroConfirmarRe" class="mensagem-erro-re" style="display: none;">RE incorreto. Digite exatamente o seu RE.</p>
+      </div>
+
+      <div class="modal__acoes modal__acoes--dupla">
+        <button type="button" id="btnCancelarConfirmacao" class="btn__modal-cancelar">Cancelar</button>
+        <button type="button" id="btnConfirmarEnvioFinal" class="btn__modal-confirmar">Confirmar Envio</button>
       </div>
     </div>
   </div>

@@ -207,6 +207,448 @@ body {
 }
 
 /* ========================================================
+   Cards de Relatório e Protocolo
+   ======================================================== */
+.relatorio-card {
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 22px;
+    margin-bottom: 22px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.relatorio-card:last-child {
+    margin-bottom: 0;
+}
+
+/* Cabeçalho do Protocolo */
+.relatorio-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 14px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.relatorio-card__col-id {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.relatorio-card__protocolo {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #2563eb;
+    background-color: #eff6ff;
+    border: 1px solid #bfdbfe;
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    width: fit-content;
+}
+
+.relatorio-card__posto {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+}
+
+.relatorio-card__col-datas {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+}
+
+.relatorio-card__meta {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1e293b;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 4px 10px;
+    border-radius: 6px;
+    display: inline-block;
+}
+
+.relatorio-card__criacao {
+    font-size: 12px;
+    color: #64748b;
+}
+
+/* Grades e Painéis de Dados Gerais (Autor e Serviço) */
+.relatorio-grid-duplo {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 12px;
+}
+
+.relatorio-painel {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 14px;
+}
+
+.relatorio-painel__titulo {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0 0 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.relatorio-painel__titulo span[class*="fa"] {
+    color: #2563eb;
+    font-size: 14px;
+}
+
+/* Pares Rótulo / Valor */
+.relatorio-campo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px;
+    font-size: 13px;
+    margin-bottom: 5px;
+    line-height: 1.5;
+}
+
+.relatorio-campo:last-child {
+    margin-bottom: 0;
+}
+
+.relatorio-campo__rotulo {
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.relatorio-campo__valor {
+    color: #475569;
+    word-break: break-word;
+}
+
+/* Seções Padrão de Relatório */
+.relatorio-secao {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 16px;
+}
+
+.relatorio-secao__titulo {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0 0 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.relatorio-secao__titulo span[class*="fa"] {
+    color: #2563eb;
+    font-size: 14px;
+}
+
+.relatorio-vazio {
+    font-size: 13px;
+    color: #64748b;
+    margin: 4px 0;
+}
+
+/* Equipe de Plantão e Cards de Vigilante */
+.relatorio-grid-vigilantes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 12px;
+}
+
+.relatorio-card-vigilante {
+    background-color: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.relatorio-card-vigilante--autor {
+    border-color: #93c5fd;
+    background-color: #f0f7ff;
+}
+
+.relatorio-card-vigilante__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 6px;
+    margin-bottom: 6px;
+}
+
+.relatorio-card-vigilante__titulo {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+}
+
+.relatorio-badge-autor {
+    font-size: 11px;
+    font-weight: 700;
+    color: #1d4ed8;
+    background-color: #dbeafe;
+    border: 1px solid #bfdbfe;
+    padding: 2px 7px;
+    border-radius: 4px;
+}
+
+/* Destaque: Registro / Alteração do Plantão */
+.relatorio-registro-plantao {
+    margin-top: 14px;
+    padding: 12px 14px;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-left: 3px solid #2563eb;
+    border-radius: 4px;
+}
+
+.relatorio-registro-plantao__titulo {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 6px 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.relatorio-registro-plantao__titulo span[class*="fa"] {
+    color: #2563eb;
+    font-size: 13px;
+}
+
+.relatorio-registro-plantao__texto {
+    font-size: 13px;
+    color: #334155;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    margin: 0;
+}
+
+/* Equipes Externas */
+.relatorio-card-empresa {
+    background-color: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 14px;
+    margin-bottom: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.relatorio-card-empresa:last-child {
+    margin-bottom: 0;
+}
+
+.relatorio-card-empresa__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 8px;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.relatorio-card-empresa__titulo {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+}
+
+.relatorio-badge-veiculo {
+    font-size: 12px;
+    font-weight: 600;
+    color: #334155;
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.relatorio-badge-veiculo span[class*="fa"] {
+    color: #2563eb;
+    font-size: 12px;
+}
+
+.relatorio-card-empresa__dados {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 6px;
+}
+
+.relatorio-card-empresa__membros {
+    border-top: 1px dashed #cbd5e1;
+    padding-top: 10px;
+}
+
+.relatorio-card-empresa__membros-titulo {
+    font-size: 13px;
+    font-weight: 700;
+    color: #334155;
+    margin: 0 0 8px 0;
+}
+
+.relatorio-grid-membros {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 8px;
+}
+
+.relatorio-card-membro {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    padding: 8px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.relatorio-card-membro__titulo {
+    font-size: 12px;
+    font-weight: 700;
+    color: #2563eb;
+    margin-bottom: 2px;
+}
+
+/* Destaque Contextual: Registro / Alteração da Equipe */
+.relatorio-registro-equipe {
+    margin-top: 10px;
+    padding: 10px 12px;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-left: 3px solid #64748b;
+    border-radius: 4px;
+}
+
+.relatorio-registro-equipe__titulo {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 4px 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.relatorio-registro-equipe__titulo span[class*="fa"] {
+    color: #64748b;
+    font-size: 12px;
+}
+
+.relatorio-registro-equipe__texto {
+    font-size: 13px;
+    color: #334155;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    margin: 0;
+}
+
+/* Destaque Institucional: Registro Geral do Turno */
+.relatorio-registro-geral {
+    background-color: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-left: 4px solid #1d4ed8;
+    border-radius: 6px;
+    padding: 16px;
+}
+
+.relatorio-registro-geral__texto {
+    font-size: 13px;
+    color: #1e293b;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    margin: 0;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    padding: 12px;
+}
+
+/* Seção de Ocorrência */
+.relatorio-ocorrencia {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 16px;
+}
+
+.relatorio-ocorrencia--com-incidente {
+    border-color: #fde68a;
+    background-color: #fffdf5;
+}
+
+.relatorio-ocorrencia--com-incidente .relatorio-secao__titulo span[class*="fa"] {
+    color: #d97706;
+}
+
+.relatorio-ocorrencia__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.relatorio-ocorrencia__descricao-bloco {
+    margin-top: 8px;
+}
+
+.relatorio-ocorrencia__descricao-rotulo {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 4px;
+}
+
+.relatorio-ocorrencia__descricao {
+    margin: 0;
+    font-size: 13px;
+    color: #334155;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    background-color: #f8fafc;
+    padding: 10px 12px;
+    border-radius: 4px;
+    border: 1px solid #e2e8f0;
+}
+
+.relatorio-ocorrencia--com-incidente .relatorio-ocorrencia__descricao {
+    background-color: #fffbeb;
+    border-color: #fef3c7;
+    color: #92400e;
+}
+
+/* ========================================================
    Responsividade Mobile
    ======================================================== */
 @media (max-width: 640px) {
@@ -244,5 +686,33 @@ body {
 
     .estado__vazio {
         padding: 30px 15px;
+    }
+
+    /* Adaptação dos Cards de Relatório */
+    .relatorio-card {
+        padding: 15px;
+        gap: 14px;
+    }
+
+    .relatorio-card__header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .relatorio-card__col-datas {
+        align-items: flex-start;
+    }
+
+    .relatorio-grid-duplo,
+    .relatorio-grid-vigilantes,
+    .relatorio-grid-membros,
+    .relatorio-card-empresa__dados,
+    .relatorio-ocorrencia__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .relatorio-secao {
+        padding: 12px;
     }
 }
