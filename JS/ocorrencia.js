@@ -690,6 +690,7 @@ function criarTemplateFuncionario(numero) {
                     <option value="RG">RG</option>
                     <option value="CPF">CPF</option>
                     <option value="ID">ID</option>
+                    <option value="Matrícula">Matrícula</option>
                 </select>
             </div>
             <div class="campo">
@@ -925,4 +926,54 @@ if (linkMenuSair) {
         window.location.href = "index.html";
     });
 }
+
+// ========================================================
+// Menu Hambúrguer Responsivo (Mobile)
+// ========================================================
+function inicializarMenuBurguer() {
+    const btnMenuBurguer = document.querySelector("#btnMenuBurguer");
+    const menuLinks = document.querySelector(".menu__links");
+
+    if (!btnMenuBurguer || !menuLinks) return;
+
+    const icone = btnMenuBurguer.querySelector(".fa");
+
+    function alternarMenu() {
+        const estaAberto = menuLinks.classList.toggle("menu__links--aberto");
+        btnMenuBurguer.setAttribute("aria-expanded", String(estaAberto));
+        btnMenuBurguer.setAttribute(
+            "aria-label",
+            estaAberto ? "Fechar menu de navegação" : "Abrir menu de navegação"
+        );
+        if (icone) {
+            if (estaAberto) {
+                icone.classList.remove("fa-bars");
+                icone.classList.add("fa-times");
+            } else {
+                icone.classList.remove("fa-times");
+                icone.classList.add("fa-bars");
+            }
+        }
+    }
+
+    function fecharMenu() {
+        if (menuLinks.classList.contains("menu__links--aberto")) {
+            menuLinks.classList.remove("menu__links--aberto");
+            btnMenuBurguer.setAttribute("aria-expanded", "false");
+            btnMenuBurguer.setAttribute("aria-label", "Abrir menu de navegação");
+            if (icone) {
+                icone.classList.remove("fa-times");
+                icone.classList.add("fa-bars");
+            }
+        }
+    }
+
+    btnMenuBurguer.addEventListener("click", alternarMenu);
+
+    menuLinks.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", fecharMenu);
+    });
+}
+
+inicializarMenuBurguer();
 

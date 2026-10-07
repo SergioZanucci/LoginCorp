@@ -18,6 +18,15 @@
                 <span class="logo__texto">LoginCorp</span>
             </div>
             <nav class="nav__principal">
+                <button
+                    type="button"
+                    id="btnMenuBurguer"
+                    class="btn__menu-burguer"
+                    aria-label="Abrir menu de navegação"
+                    aria-expanded="false"
+                >
+                    <span class="fa fa-bars" aria-hidden="true"></span>
+                </button>
                 <ul class="menu__links">
                     <li>
                         <a href="index.html">
@@ -26,7 +35,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="cadastros.html">
+                        <a href="cadastros.html" id="linkMenuFuncionarios">
                             <span class="fa fa-users"></span>
                             <span>Funcionários</span>
                         </a>
@@ -60,6 +69,75 @@
                 <h2><span class="fa fa-book-open"></span> Livro de Registros e Ocorrências</h2>
             </div>
 
+            <!-- Área de Pesquisa e Filtros -->
+            <div id="painelFiltros" class="painel__filtros" style="display: none;">
+                <div class="linha__busca-principal">
+                    <div class="campo__busca-texto">
+                        <span class="fa fa-search icone__busca"></span>
+                        <input
+                            type="text"
+                            id="inputBusca"
+                            placeholder="Buscar por protocolo, nome, RE, posto, placa ou ocorrência..."
+                            autocomplete="off"
+                        >
+                    </div>
+                </div>
+
+                <div class="grid__filtros">
+                    <div class="item__filtro">
+                        <label for="filtroTurno">Turno</label>
+                        <select id="filtroTurno">
+                            <option value="">Todos</option>
+                            <option value="diurno">Diurno</option>
+                            <option value="noturno">Noturno</option>
+                        </select>
+                    </div>
+
+                    <div class="item__filtro">
+                        <label for="filtroTipoOcorrencia">Tipo de Ocorrência</label>
+                        <select id="filtroTipoOcorrencia">
+                            <option value="">Todos</option>
+                            <option value="sem_ocorrencia">Sem Ocorrência / Apenas Registro</option>
+                            <option value="relatorio">Relatório</option>
+                            <option value="acidente">Acidente</option>
+                            <option value="incidente">Incidente de Segurança</option>
+                            <option value="tecnico">Problema Técnico</option>
+                            <option value="reclamacao">Reclamação</option>
+                        </select>
+                    </div>
+
+                    <div class="item__filtro">
+                        <label for="filtroData">Data do Serviço</label>
+                        <input type="date" id="filtroData">
+                    </div>
+
+                    <div class="item__filtro item__filtro--acoes">
+                        <label class="label__invisivel">&nbsp;</label>
+                        <button type="button" id="btnLimparFiltros" class="btn__limpar-filtros">
+                            <span class="fa fa-times"></span>
+                            <span>Limpar filtros</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="barra__status-filtros">
+                    <span id="contadorRelatorios" class="contador__relatorios">Exibindo 0 de 0 relatórios</span>
+                </div>
+            </div>
+
+            <!-- Bloco exibido quando há relatórios salvos, mas nenhum corresponde aos filtros -->
+            <div id="semResultadosFiltro" class="busca__sem-resultados" style="display: none;">
+                <div class="icone__sem-resultados">
+                    <span class="fa fa-search"></span>
+                </div>
+                <h4>Nenhum relatório encontrado para os critérios pesquisados.</h4>
+                <p>Verifique o termo digitado ou ajuste os filtros selecionados para visualizar os registros.</p>
+                <button type="button" id="btnLimparFiltrosVazio" class="btn__limpar-filtros-vazio">
+                    <span class="fa fa-undo"></span>
+                    <span>Limpar filtros</span>
+                </button>
+            </div>
+
             <!-- Container para renderização dinâmica dos relatórios -->
             <div id="listaRelatorios"></div>
 
@@ -82,6 +160,20 @@
     <footer class="rodape__principal">
         <p>Direitos reservados SHZ &copy; LoginCorp</p>
     </footer>
+
+    <!-- Modal Reutilizável de Alerta / Acesso Negado -->
+    <div id="modalAviso" class="modal__overlay" aria-hidden="true">
+        <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modalTitulo">
+            <div class="modal__icone">
+                <span class="fa fa-shield-alt"></span>
+            </div>
+            <h3 id="modalTitulo" class="modal__titulo">Acesso negado</h3>
+            <p id="modalMensagem" class="modal__mensagem">Você não tem permissão para acessar esta área.</p>
+            <div class="modal__acoes">
+                <button type="button" id="btnFecharModal" class="btn__modal-fechar">Fechar</button>
+            </div>
+        </div>
+    </div>
 
     <script src="./JS/registros.js"></script>
 </body>

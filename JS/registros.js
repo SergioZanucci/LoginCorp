@@ -141,42 +141,266 @@ function criarTituloSecao(texto, iconeClasse = "", classe = "relatorio-secao__ti
 }
 
 // ========================================================
-// Renderização dos Relatórios
+// Estado em Memória dos Relatórios e Mecanismo de Filtros
 // ========================================================
 
-function renderizarRelatorios() {
+let todosOsRelatorios = [];
+
+/**
+ * Lê do localStorage de maneira segura e armazena exclusivamente em memória.
+ * Nenhuma alteração, remoção ou regravação é efetuada no localStorage.
+ */
+function carregarRelatorios() {
+    try {
+        todosOsRelatorios = JSON.parse(localStorage.getItem("relatorios")) || [];
+        if (!Array.isArray(todosOsRelatorios)) {
+            todosOsRelatorios = [];
+        }
+    } catch (e) {
+        console.error("Erro ao ler relatórios do localStorage:", e);
+        todosOsRelatorios = [];
+    }
+}
+
+/**
+ * Verifica se os termos digitados na busca estão presentes nos campos relevantes do relatório.
+ * Mantém total compatibilidade com propriedades de relatórios legados.
+ * @param {Object} relatorio
+ * @param {string} termo
+ * @returns {boolean}
+ */
+function verificarCorrespondenciaTexto(relatorio, termo) {
+    if (!relatorio || typeof relatorio !== "object") return false;
+
+    let termoBusca = String(termo || "").trim().toLowerCase();
+    if (!termoBusca) return true;
+
+    // Normalização da busca por RE/matrícula:
+    // Trata o prefixo "RE" (ex: "RE 004134", "RE:004134", "re: 004134") como rótulo da matrícula,
+    // extraindo o valor para que corresponda ao número cadastrado no relatório.
+    const termoSemPrefixo = termoBusca.replace(/^re(?:\s*:\s*|\s+|(?=\d))/i, "").trim();
+    if (termoSemPrefixo !== "") {
+        termoBusca = termoSemPrefixo;
+    }
+
+    const tokens = [];
+
+    // Identificação e serviço
+    if (relatorio.id) tokens.push(String(relatorio.id));
+    if (relatorio.dataServico) tokens.push(String(relatorio.dataServico));
+    if (relatorio.servico) {
+        if (relatorio.servico.turno) tokens.push(String(relatorio.servico.turno));
+        if (relatorio.servico.posto) tokens.push(String(relatorio.servico.posto));
+    }
+
+    // Autor
+    if (relatorio.autor) {
+        if (relatorio.autor.nome) tokens.push(String(relatorio.autor.nome));
+        if (relatorio.autor.matricula) tokens.push(String(relatorio.autor.matricula));
+        if (relatorio.autor.funcao) tokens.push(String(relatorio.autor.funcao));
+        if (relatorio.autor.empresa) tokens.push(String(relatorio.autor.empresa));
+    }
+
+    // Equipe do plantão
+    const equipePlantao = Array.isArray(relatorio.equipePlantao) ? relatorio.equipePlantao : [];
+    equipePlantao.forEach((vig) => {
+        if (!vig) return;
+        if (vig.nome) tokens.push(String(vig.nome));
+        if (vig.matricula) tokens.push(String(vig.matricula));
+        if (vig.funcao) tokens.push(String(vig.funcao));
+        if (vig.empresa) tokens.push(String(vig.empresa));
+        if (vig.posto) tokens.push(String(vig.posto));
+    });
+
+    // Registros e alterações (com suporte a chave legada registrosAlteracoes)
+    if (relatorio.registroAlteracaoPlantao) tokens.push(String(relatorio.registroAlteracaoPlantao));
+    const textoGeral = relatorio.registroGeralTurno || relatorio.registrosAlteracoes || "";
+    if (textoGeral) tokens.push(String(textoGeral));
+
+    // Ocorrência
+    if (relatorio.ocorrencia) {
+        if (relatorio.ocorrencia.tipo) tokens.push(String(relatorio.ocorrencia.tipo));
+        if (relatorio.ocorrencia.local) tokens.push(String(relatorio.ocorrencia.local));
+        if (relatorio.ocorrencia.descricaoDetalhada) tokens.push(String(relatorio.ocorrencia.descricaoDetalhada));
+    }
+
+    // Equipes externas e prestadores
+    const equipesExternas = Array.isArray(relatorio.equipesExternas) ? relatorio.equipesExternas : [];
+    equipesExternas.forEach((eq) => {
+        if (!eq) return;
+        if (eq.empresa) tokens.push(String(eq.empresa));
+        const veiculo = eq.veiculo || eq.modelo || "";
+        if (veiculo) tokens.push(String(veiculo));
+        if (eq.cor) tokens.push(String(eq.cor));
+        if (eq.placa) tokens.push(String(eq.placa));
+        if (eq.registroAlteracao) tokens.push(String(eq.registroAlteracao));
+
+        const membros = Array.isArray(eq.membros) ? eq.membros : [];
+        membros.forEach((m) => {
+            if (!m) return;
+            if (m.nome) tokens.push(String(m.nome));
+            if (m.tipoDocumento) tokens.push(String(m.tipoDocumento));
+            if (m.numeroDocumento) tokens.push(String(m.numeroDocumento));
+        });
+    });
+
+    const corpoCompleto = tokens.join(" ").toLowerCase();
+    return corpoCompleto.includes(termoBusca);
+}
+
+/**
+ * Aplica os filtros combinados (texto, turno, tipo de ocorrência e data)
+ * e gerencia os estados visuais da tela.
+ */
+function aplicarFiltros() {
+    const painelFiltros = document.querySelector("#painelFiltros");
+    const inputBusca = document.querySelector("#inputBusca");
+    const filtroTurno = document.querySelector("#filtroTurno");
+    const filtroTipoOcorrencia = document.querySelector("#filtroTipoOcorrencia");
+    const filtroData = document.querySelector("#filtroData");
+    const contadorRelatorios = document.querySelector("#contadorRelatorios");
+    const semResultadosFiltro = document.querySelector("#semResultadosFiltro");
     const containerLista = document.querySelector("#listaRelatorios");
     const estadoVazio = document.querySelector(".estado__vazio");
 
-    if (!containerLista) return;
-
-    // Leitura estritamente segura e não destrutiva do localStorage
-    let relatorios = [];
-    try {
-        relatorios = JSON.parse(localStorage.getItem("relatorios")) || [];
-    } catch (e) {
-        console.error("Erro ao ler relatórios do localStorage:", e);
-        relatorios = [];
-    }
-
-    // Se não houver relatórios, exibe o bloco de estado vazio
-    if (!Array.isArray(relatorios) || relatorios.length === 0) {
+    // Situação 1: Nenhum relatório cadastrado no sistema
+    if (!Array.isArray(todosOsRelatorios) || todosOsRelatorios.length === 0) {
+        if (painelFiltros) painelFiltros.style.display = "none";
         if (estadoVazio) estadoVazio.style.display = "flex";
-        containerLista.style.display = "none";
-        containerLista.replaceChildren();
+        if (containerLista) {
+            containerLista.style.display = "none";
+            containerLista.replaceChildren();
+        }
+        if (semResultadosFiltro) semResultadosFiltro.style.display = "none";
         return;
     }
 
-    // Se houver relatórios, oculta o estado vazio e renderiza a listagem
+    // Se há relatórios, exibe a área de filtros e oculta o estado vazio inicial
+    if (painelFiltros) painelFiltros.style.display = "block";
     if (estadoVazio) estadoVazio.style.display = "none";
-    containerLista.style.display = "block";
-    containerLista.replaceChildren();
 
-    // Itera sobre todos os relatórios sem modificar o array original
-    relatorios.forEach((relatorio, indexRelatorio) => {
-        const card = criarCardRelatorio(relatorio, indexRelatorio);
-        containerLista.appendChild(card);
+    const termo = (inputBusca ? inputBusca.value : "").trim().toLowerCase();
+    const turnoSel = (filtroTurno ? filtroTurno.value : "").trim().toLowerCase();
+    const tipoOcorrenciaSel = (filtroTipoOcorrencia ? filtroTipoOcorrencia.value : "").trim();
+    const dataSel = (filtroData ? filtroData.value : "").trim();
+
+    const relatoriosFiltrados = todosOsRelatorios.filter((relatorio) => {
+        if (!relatorio || typeof relatorio !== "object") return false;
+
+        // 1. Filtro por Turno
+        if (turnoSel) {
+            const turnoRelatorio = (relatorio.servico?.turno || "").trim().toLowerCase();
+            if (turnoRelatorio !== turnoSel) {
+                return false;
+            }
+        }
+
+        // 2. Filtro por Tipo de Ocorrência
+        if (tipoOcorrenciaSel) {
+            const tipoRelatorio = (relatorio.ocorrencia?.tipo || "").trim();
+            if (tipoOcorrenciaSel === "sem_ocorrencia") {
+                if (tipoRelatorio !== "") {
+                    return false;
+                }
+            } else {
+                if (tipoRelatorio.toLowerCase() !== tipoOcorrenciaSel.toLowerCase()) {
+                    return false;
+                }
+            }
+        }
+
+        // 3. Filtro por Data do Serviço
+        if (dataSel) {
+            const dataRelatorio = (relatorio.dataServico || "").trim();
+            if (dataRelatorio !== dataSel) {
+                return false;
+            }
+        }
+
+        // 4. Pesquisa Textual
+        if (termo) {
+            if (!verificarCorrespondenciaTexto(relatorio, termo)) {
+                return false;
+            }
+        }
+
+        return true;
     });
+
+    // Atualiza o contador de resultados
+    if (contadorRelatorios) {
+        contadorRelatorios.textContent = `Exibindo ${relatoriosFiltrados.length} de ${todosOsRelatorios.length} relatórios`;
+    }
+
+    // Situação 3: Existem relatórios, mas nenhum atende aos filtros
+    if (relatoriosFiltrados.length === 0) {
+        if (containerLista) {
+            containerLista.style.display = "none";
+            containerLista.replaceChildren();
+        }
+        if (semResultadosFiltro) semResultadosFiltro.style.display = "flex";
+        return;
+    }
+
+    // Situação 2: Existem relatórios e resultados encontrados
+    if (semResultadosFiltro) semResultadosFiltro.style.display = "none";
+    if (containerLista) {
+        containerLista.style.display = "block";
+        containerLista.replaceChildren();
+
+        relatoriosFiltrados.forEach((relatorio, index) => {
+            const card = criarCardRelatorio(relatorio, index);
+            containerLista.appendChild(card);
+        });
+    }
+}
+
+/**
+ * Restaura todos os controles de filtro aos valores padrão e atualiza a lista.
+ */
+function limparFiltros() {
+    const inputBusca = document.querySelector("#inputBusca");
+    const filtroTurno = document.querySelector("#filtroTurno");
+    const filtroTipoOcorrencia = document.querySelector("#filtroTipoOcorrencia");
+    const filtroData = document.querySelector("#filtroData");
+
+    if (inputBusca) inputBusca.value = "";
+    if (filtroTurno) filtroTurno.value = "";
+    if (filtroTipoOcorrencia) filtroTipoOcorrencia.value = "";
+    if (filtroData) filtroData.value = "";
+
+    aplicarFiltros();
+}
+
+/**
+ * Vincula os eventos aos elementos de busca e filtro.
+ */
+function inicializarEventosFiltros() {
+    const inputBusca = document.querySelector("#inputBusca");
+    const filtroTurno = document.querySelector("#filtroTurno");
+    const filtroTipoOcorrencia = document.querySelector("#filtroTipoOcorrencia");
+    const filtroData = document.querySelector("#filtroData");
+    const btnLimparFiltros = document.querySelector("#btnLimparFiltros");
+    const btnLimparFiltrosVazio = document.querySelector("#btnLimparFiltrosVazio");
+
+    if (inputBusca) {
+        inputBusca.addEventListener("input", aplicarFiltros);
+    }
+    if (filtroTurno) {
+        filtroTurno.addEventListener("change", aplicarFiltros);
+    }
+    if (filtroTipoOcorrencia) {
+        filtroTipoOcorrencia.addEventListener("change", aplicarFiltros);
+    }
+    if (filtroData) {
+        filtroData.addEventListener("change", aplicarFiltros);
+    }
+    if (btnLimparFiltros) {
+        btnLimparFiltros.addEventListener("click", limparFiltros);
+    }
+    if (btnLimparFiltrosVazio) {
+        btnLimparFiltrosVazio.addEventListener("click", limparFiltros);
+    }
 }
 
 /**
@@ -469,5 +693,151 @@ function criarCardRelatorio(relatorio, indexRelatorio) {
     return card;
 }
 
-// Inicializa a renderização quando o documento estiver pronto
-document.addEventListener("DOMContentLoaded", renderizarRelatorios);
+// ========================================================
+// Menu Hambúrguer Responsivo (Mobile)
+// ========================================================
+function inicializarMenuBurguer() {
+    const btnMenuBurguer = document.querySelector("#btnMenuBurguer");
+    const menuLinks = document.querySelector(".menu__links");
+
+    if (!btnMenuBurguer || !menuLinks) return;
+
+    const icone = btnMenuBurguer.querySelector(".fa");
+
+    function alternarMenu() {
+        const estaAberto = menuLinks.classList.toggle("menu__links--aberto");
+        btnMenuBurguer.setAttribute("aria-expanded", String(estaAberto));
+        btnMenuBurguer.setAttribute(
+            "aria-label",
+            estaAberto ? "Fechar menu de navegação" : "Abrir menu de navegação"
+        );
+        if (icone) {
+            if (estaAberto) {
+                icone.classList.remove("fa-bars");
+                icone.classList.add("fa-times");
+            } else {
+                icone.classList.remove("fa-times");
+                icone.classList.add("fa-bars");
+            }
+        }
+    }
+
+    function fecharMenu() {
+        if (menuLinks.classList.contains("menu__links--aberto")) {
+            menuLinks.classList.remove("menu__links--aberto");
+            btnMenuBurguer.setAttribute("aria-expanded", "false");
+            btnMenuBurguer.setAttribute("aria-label", "Abrir menu de navegação");
+            if (icone) {
+                icone.classList.remove("fa-times");
+                icone.classList.add("fa-bars");
+            }
+        }
+    }
+
+    btnMenuBurguer.addEventListener("click", alternarMenu);
+
+    menuLinks.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", fecharMenu);
+    });
+}
+
+// ========================================================
+// Controle de Acesso ao Menu "Funcionários" e Modal Reutilizável
+// ========================================================
+let elementoGatilhoAviso = null;
+
+/**
+ * Exibe o modal de aviso reutilizável com título e mensagem personalizados.
+ * @param {string} [titulo] - Título da mensagem
+ * @param {string} [mensagem] - Texto descritivo
+ * @param {HTMLElement} [elementoParaFoco] - Elemento opcional que deve receber foco após o fechamento do modal
+ */
+function abrirModalAviso(titulo, mensagem, elementoParaFoco = null) {
+    const modalAviso = document.querySelector("#modalAviso");
+    if (!modalAviso) return;
+
+    elementoGatilhoAviso = elementoParaFoco || document.activeElement;
+
+    if (titulo) {
+        const elementoTitulo = modalAviso.querySelector(".modal__titulo");
+        if (elementoTitulo) elementoTitulo.textContent = titulo;
+    }
+    if (mensagem) {
+        const elementoMensagem = modalAviso.querySelector(".modal__mensagem");
+        if (elementoMensagem) elementoMensagem.textContent = mensagem;
+    }
+
+    modalAviso.classList.add("ativo");
+    modalAviso.setAttribute("aria-hidden", "false");
+
+    const btnFecharModal = document.querySelector("#btnFecharModal");
+    if (btnFecharModal) {
+        setTimeout(() => btnFecharModal.focus(), 100);
+    }
+}
+
+/**
+ * Fecha o modal de aviso com remoção de foco prévia para evitar avisos de acessibilidade.
+ */
+function fecharModalAviso() {
+    const modalAviso = document.querySelector("#modalAviso");
+    if (!modalAviso) return;
+
+    if (document.activeElement && modalAviso.contains(document.activeElement)) {
+        document.activeElement.blur();
+    }
+
+    modalAviso.classList.remove("ativo");
+    modalAviso.setAttribute("aria-hidden", "true");
+
+    if (elementoGatilhoAviso && typeof elementoGatilhoAviso.focus === "function") {
+        elementoGatilhoAviso.focus();
+        if (typeof elementoGatilhoAviso.scrollIntoView === "function") {
+            elementoGatilhoAviso.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+    }
+}
+
+/**
+ * Vincula eventos ao modal de aviso e intercepta o link "Funcionários"
+ * para perfis não administradores.
+ */
+function inicializarControleAcessoFuncionarios() {
+    const linkMenuFuncionarios = document.querySelector("#linkMenuFuncionarios") || document.querySelector('a[href="cadastros.html"]');
+    const modalAviso = document.querySelector("#modalAviso");
+    const btnFecharModal = document.querySelector("#btnFecharModal");
+
+    if (btnFecharModal) {
+        btnFecharModal.addEventListener("click", fecharModalAviso);
+    }
+
+    if (modalAviso) {
+        modalAviso.addEventListener("click", (evento) => {
+            if (evento.target === modalAviso) {
+                fecharModalAviso();
+            }
+        });
+    }
+
+    if (linkMenuFuncionarios) {
+        linkMenuFuncionarios.addEventListener("click", (evento) => {
+            // Se o usuário logado for administrador, navega normalmente para cadastros.html
+            if (funcionarioLogado && funcionarioLogado.perfil === "administrador") {
+                return;
+            }
+
+            // Se for funcionário comum ou cadastro legado sem perfil, intercepta o clique
+            evento.preventDefault();
+            abrirModalAviso("Acesso negado", "Você não tem permissão para acessar esta área.");
+        });
+    }
+}
+
+// Inicializa os dados em memória, vincula eventos e executa a renderização inicial
+document.addEventListener("DOMContentLoaded", () => {
+    carregarRelatorios();
+    inicializarEventosFiltros();
+    aplicarFiltros();
+    inicializarMenuBurguer();
+    inicializarControleAcessoFuncionarios();
+});
